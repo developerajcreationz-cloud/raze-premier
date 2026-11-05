@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 	<div class="wrap section-head section-head-row">
 		<div>
 			<p class="kicker" data-reveal>Selected work</p>
-			<h2 class="h-xl" data-reveal style="--d:.06s">Recent projects.</h2>
+			<h2 class="h-xl" data-split>Recent projects.</h2>
 		</div>
 		<p class="lede" data-reveal style="--d:.12s">Brand systems, product interfaces and the pieces that carry them into the world.</p>
 	</div>

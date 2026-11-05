@@ -32,7 +32,7 @@ $raze_home = is_front_page() ? '' : home_url( '/' );
 			<?php if ( has_custom_logo() ) : ?>
 				<?php echo wp_get_attachment_image( get_theme_mod( 'custom_logo' ), 'medium', false, array( 'class' => 'brand-logo' ) ); ?>
 			<?php else : ?>
-				<span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28"><rect width="32" height="32" rx="8" fill="#111110"/><path d="M10 24V8h7a5 5 0 0 1 0 10h-7" fill="none" stroke="#f3f0e8" stroke-width="3" stroke-linejoin="round"/><path d="M15.5 18 22 24" stroke="#ff4d1f" stroke-width="3" stroke-linecap="round"/></svg></span>
+				<span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28"><rect width="32" height="32" rx="8" fill="#0B1209"/><path d="M10 24V8h7a5 5 0 0 1 0 10h-7" fill="none" stroke="#FCFFFF" stroke-width="3" stroke-linejoin="round"/><path d="M15.5 18 22 24" stroke="#CDF73D" stroke-width="3" stroke-linecap="round"/></svg></span>
 				<span class="brand-word">Raze <b>Premier</b></span>
 			<?php endif; ?>
 		</a>

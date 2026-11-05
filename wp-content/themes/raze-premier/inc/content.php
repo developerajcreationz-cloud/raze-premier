@@ -240,3 +240,39 @@ function raze_service_options() {
 	$options[] = 'Not sure yet';
 	return $options;
 }
+
+/**
+ * Service cards for the homepage grid: every service, in order, with the
+ * small illustration each card draws (see template-parts/visuals.php).
+ *
+ * @return array
+ */
+function raze_service_cards() {
+	$visuals = array(
+		'Branding'            => 'brand',
+		'Website development' => 'web',
+		'Video editing'       => 'video',
+		'SEO, AEO and GEO'    => 'search',
+		'Google Ads'          => 'gads',
+		'Meta Ads'            => 'meta',
+		'Lead funnels'        => 'funnel',
+	);
+	$cards = array();
+	foreach ( raze_service_groups() as $group ) {
+		foreach ( $group['items'] as $item ) {
+			$item['group']  = $group['id'];
+			$item['visual'] = isset( $visuals[ $item['name'] ] ) ? $visuals[ $item['name'] ] : '';
+			$cards[]        = $item;
+		}
+	}
+	return apply_filters( 'raze_content_service_cards', $cards );
+}
+
+/**
+ * Words for the big scrolling ticker.
+ *
+ * @return string[]
+ */
+function raze_ticker_words() {
+	return apply_filters( 'raze_content_ticker', array( 'Brand', 'Websites', 'Search', 'Ads', 'Video', 'Funnels' ) );
+}

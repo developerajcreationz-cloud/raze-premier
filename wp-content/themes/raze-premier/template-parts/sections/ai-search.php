@@ -34,7 +34,7 @@ $raze_modes = array(
 		<div class="ai-grid">
 			<div class="ai-copy">
 				<p class="kicker kicker-light" data-reveal>SEO, AEO and GEO</p>
-				<h2 class="h-xl" data-reveal style="--d:.06s">Search has three front pages now.</h2>
+				<h2 class="h-xl" data-split>Search has three front pages now.</h2>
 				<p class="lede" data-reveal style="--d:.12s">People still type into Google. More of them now read the AI summary at the top, or ask ChatGPT and never click. We work on all three, from one site and one set of facts about your business.</p>
 
 				<div class="modes" role="tablist" aria-label="Search types" data-modes>

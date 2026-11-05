@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 <section class="process" id="process">
 	<div class="wrap section-head">
 		<p class="kicker" data-reveal>Process</p>
-		<h2 class="h-xl" data-reveal style="--d:.06s">How a project runs.</h2>
+		<h2 class="h-xl" data-split>How a project runs.</h2>
 	</div>
 	<div class="wrap">
 		<ol class="steps" data-steps>

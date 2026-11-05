@@ -60,7 +60,7 @@ function raze_head_meta() {
 	<meta property="og:url" content="<?php echo esc_url( home_url( '/' ) ); ?>">
 	<meta property="og:image" content="<?php echo esc_url( $img ); ?>">
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="theme-color" content="#f3f0e8">
+	<meta name="theme-color" content="#FCFFFF">
 	<?php
 }
 add_action( 'wp_head', 'raze_head_meta', 3 );

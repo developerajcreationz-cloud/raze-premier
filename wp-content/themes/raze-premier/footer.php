@@ -22,10 +22,8 @@ $raze_email = raze_opt( 'email' );
 		<div class="footer-col">
 			<h2 class="footer-h">Services</h2>
 			<ul>
-				<?php foreach ( raze_service_groups() as $raze_group ) : ?>
-					<?php foreach ( $raze_group['items'] as $raze_item ) : ?>
-						<li><a href="<?php echo esc_url( $raze_home . '#' . $raze_group['id'] ); ?>"><?php echo esc_html( $raze_item['name'] ); ?></a></li>
-					<?php endforeach; ?>
+				<?php foreach ( raze_service_cards() as $raze_item ) : ?>
+					<li><a href="<?php echo esc_url( $raze_home . '#' . sanitize_title( $raze_item['name'] ) ); ?>"><?php echo esc_html( $raze_item['name'] ); ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>

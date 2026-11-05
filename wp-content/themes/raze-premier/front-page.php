@@ -13,9 +13,11 @@ get_header();
 <main id="main" class="landing">
 	<?php
 	raze_section( 'hero' );
-	raze_section( 'surfaces' );
+	raze_section( 'tools' );
 	raze_section( 'services' );
+	raze_section( 'showcase' );
 	raze_section( 'ai-search' );
+	raze_section( 'ticker' );
 	raze_section( 'work' );
 	raze_section( 'process' );
 	raze_section( 'quote' );

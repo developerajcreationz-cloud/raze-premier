@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 	<div class="wrap faq-grid">
 		<div class="section-head">
 			<p class="kicker" data-reveal>Questions</p>
-			<h2 class="h-xl" data-reveal style="--d:.06s">Before you ask.</h2>
+			<h2 class="h-xl" data-split>Before you ask.</h2>
 			<p class="lede" data-reveal style="--d:.12s">Something else on your mind? <a href="#contact">Send it with the form</a> and we will answer it on the call.</p>
 		</div>
 		<div class="faq-list">

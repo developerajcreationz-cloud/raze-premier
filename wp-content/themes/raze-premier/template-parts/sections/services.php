@@ -1,57 +1,45 @@
 <?php
 /**
- * Services grouped by outcome.
+ * Service cards, three per row. The last card (lead funnels) spans the row.
  *
  * @package raze
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$raze_cards = raze_service_cards();
+$raze_total = count( $raze_cards );
 ?>
 <section class="services" id="services">
-	<div class="wrap section-head">
-		<p class="kicker" data-reveal>What we do</p>
-		<h2 class="h-xl" data-reveal style="--d:.06s">Seven services, <em>one set of numbers.</em></h2>
-		<p class="lede" data-reveal style="--d:.12s">You can hire us for one of these. They work better together, because the site is built for the searches the ads target, and the funnel reports which of them paid off.</p>
-	</div>
-
-	<?php foreach ( raze_service_groups() as $raze_group ) : ?>
-		<div class="band band-<?php echo esc_attr( $raze_group['tone'] ); ?>" id="<?php echo esc_attr( $raze_group['id'] ); ?>">
-			<div class="band-inner">
-				<div class="band-side">
-					<div class="band-sticky">
-						<span class="band-index mono"><?php echo esc_html( $raze_group['index'] ); ?> / 03</span>
-						<h3 class="band-title" data-reveal><?php echo esc_html( $raze_group['title'] ); ?></h3>
-						<p class="band-intro" data-reveal style="--d:.08s"><?php echo esc_html( $raze_group['intro'] ); ?></p>
-					</div>
-				</div>
-				<ol class="svc-list">
-					<?php foreach ( $raze_group['items'] as $raze_item ) : ?>
-						<li class="svc" data-reveal>
-							<div class="svc-top">
-								<h4 class="svc-name"><?php echo esc_html( $raze_item['name'] ); ?></h4>
-								<a class="svc-link" href="#contact" data-service="<?php echo esc_attr( $raze_item['name'] ); ?>" aria-label="<?php echo esc_attr( 'Ask about ' . $raze_item['name'] ); ?>"><?php echo raze_icon( 'arrow-ne' ); // phpcs:ignore ?></a>
-							</div>
-							<p class="svc-desc"><?php echo esc_html( $raze_item['desc'] ); ?></p>
-							<ul class="tags">
-								<?php foreach ( $raze_item['tags'] as $raze_tag ) : ?>
-									<li><?php echo esc_html( $raze_tag ); ?></li>
-								<?php endforeach; ?>
-							</ul>
-						</li>
-					<?php endforeach; ?>
-					<?php if ( 'convert' === $raze_group['id'] ) : ?>
-						<li class="svc svc-flow" data-reveal aria-label="How a lead moves through the funnel">
-							<ol class="flow">
-								<li><span class="mono">01</span>Ad or search result</li>
-								<li><span class="mono">02</span>Landing page</li>
-								<li><span class="mono">03</span>Form or booking</li>
-								<li><span class="mono">04</span>Instant follow-up</li>
-								<li><span class="mono">05</span>Call booked</li>
-							</ol>
-						</li>
-					<?php endif; ?>
-				</ol>
+	<div class="wrap">
+		<div class="sec-head">
+			<div>
+				<p class="eyebrow eyebrow-dark" data-reveal><span class="dot" aria-hidden="true"></span>What we do</p>
+				<h2 class="h-xl" data-split>Seven services. One team.</h2>
 			</div>
+			<p class="lede" data-reveal style="--d:.15s">Hire us for one, or let them work together: the site is built for the searches the ads target, and the funnel shows which of them paid off.</p>
 		</div>
-	<?php endforeach; ?>
+
+		<div class="cards">
+			<?php foreach ( $raze_cards as $raze_i => $raze_card ) : ?>
+				<?php $raze_wide = ( $raze_i === $raze_total - 1 && 1 === $raze_total % 3 ); ?>
+				<article class="card<?php echo $raze_wide ? ' card-wide' : ''; ?>" id="<?php echo esc_attr( sanitize_title( $raze_card['name'] ) ); ?>" data-reveal data-tilt style="--d:<?php echo esc_attr( ( $raze_i % 3 ) * 0.08 ); ?>s">
+					<div class="card-top">
+						<span class="card-n mono"><?php echo esc_html( sprintf( '%02d', $raze_i + 1 ) ); ?></span>
+						<a class="card-arrow" href="#contact" data-service="<?php echo esc_attr( $raze_card['name'] ); ?>" aria-label="<?php echo esc_attr( 'Ask about ' . $raze_card['name'] ); ?>"><?php echo raze_icon( 'arrow-ne' ); // phpcs:ignore ?></a>
+					</div>
+					<div class="card-viz"><?php get_template_part( 'template-parts/visuals', null, array( 'type' => $raze_card['visual'] ) ); ?></div>
+					<div class="card-body">
+						<h3 class="card-title"><?php echo esc_html( $raze_card['name'] ); ?></h3>
+						<p class="card-desc"><?php echo esc_html( $raze_card['desc'] ); ?></p>
+						<ul class="card-tags">
+							<?php foreach ( $raze_card['tags'] as $raze_tag ) : ?>
+								<li><?php echo esc_html( $raze_tag ); ?></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+				</article>
+			<?php endforeach; ?>
+		</div>
+	</div>
 </section>

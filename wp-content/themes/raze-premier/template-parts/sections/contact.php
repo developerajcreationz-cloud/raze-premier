@@ -18,7 +18,7 @@ $raze_book     = raze_opt( 'booking_url' );
 		<div class="contact-grid">
 			<div class="contact-copy">
 				<p class="kicker kicker-light" data-reveal>Start here</p>
-				<h2 class="h-xl" data-reveal style="--d:.06s">Tell us what you sell and who buys it.</h2>
+				<h2 class="h-xl" data-split>Tell us what you sell and who buys it.</h2>
 				<p class="lede" data-reveal style="--d:.12s">We will look at your site, search presence and ads before the call, and come back with what we would do first. No obligation.</p>
 
 				<ul class="contact-direct" data-reveal style="--d:.18s">
