@@ -9,10 +9,10 @@ defined( 'ABSPATH' ) || exit;
 
 $raze_links = array(
 	'#services' => 'Services',
-	'#ai-search' => 'AI search',
 	'#work'     => 'Work',
 	'#process'  => 'Process',
 	'#faq'      => 'FAQ',
+	'#contact'  => 'Contact',
 );
 $raze_home = is_front_page() ? '' : home_url( '/' );
 ?><!doctype html>

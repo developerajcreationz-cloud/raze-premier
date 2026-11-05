@@ -38,6 +38,24 @@ function raze_customize_register( $wp_customize ) {
 		'meta_desc'     => array( __( 'Homepage meta description', 'raze' ), 'textarea', 'sanitize_textarea_field', '' ),
 	);
 
+	$wp_customize->add_setting(
+		'raze_palette',
+		array(
+			'default'           => 'lime',
+			'sanitize_callback' => 'raze_sanitize_palette',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		'raze_palette',
+		array(
+			'label'   => __( 'Colour palette', 'raze' ),
+			'section' => 'raze_contact',
+			'type'    => 'select',
+			'choices' => raze_palettes(),
+		)
+	);
+
 	foreach ( $fields as $key => $field ) {
 		$wp_customize->add_setting(
 			'raze_' . $key,
@@ -84,3 +102,51 @@ function raze_socials() {
 	}
 	return $out;
 }
+
+/**
+ * Available colour palettes.
+ *
+ * @return array slug => label
+ */
+function raze_palettes() {
+	return array(
+		'lime'  => __( 'White, ink and neon lime', 'raze' ),
+		'swiss' => __( 'Bone, black and Swiss red', 'raze' ),
+		'klein' => __( 'Midnight and Klein blue', 'raze' ),
+		'ember' => __( 'Black, bone and ember orange', 'raze' ),
+	);
+}
+
+/**
+ * Keep the palette to a known slug.
+ *
+ * @param string $value Raw.
+ * @return string
+ */
+function raze_sanitize_palette( $value ) {
+	return array_key_exists( $value, raze_palettes() ) ? $value : 'lime';
+}
+
+/**
+ * Active palette. Administrators can preview another one with ?palette=slug.
+ *
+ * @return string
+ */
+function raze_current_palette() {
+	if ( isset( $_GET['palette'] ) && current_user_can( 'edit_theme_options' ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		return raze_sanitize_palette( sanitize_key( wp_unslash( $_GET['palette'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
+	}
+	return raze_sanitize_palette( get_theme_mod( 'raze_palette', 'lime' ) );
+}
+
+/**
+ * Add the palette class to <body>.
+ *
+ * @param array $classes Classes.
+ * @return array
+ */
+function raze_palette_body_class( $classes ) {
+	$classes[] = 'palette-' . raze_current_palette();
+	return $classes;
+}
+add_filter( 'body_class', 'raze_palette_body_class' );

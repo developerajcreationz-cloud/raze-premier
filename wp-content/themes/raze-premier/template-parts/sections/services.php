@@ -15,7 +15,7 @@ $raze_total = count( $raze_cards );
 		<div class="sec-head">
 			<div>
 				<p class="eyebrow eyebrow-dark" data-reveal><span class="dot" aria-hidden="true"></span>What we do</p>
-				<h2 class="h-xl" data-split>Seven services. One team.</h2>
+				<h2 class="h-xl" data-split>Six services. One team.</h2>
 			</div>
 			<p class="lede" data-reveal style="--d:.15s">Hire us for one, or let them work together: the site is built for the searches the ads target, and the funnel shows which of them paid off.</p>
 		</div>
@@ -28,7 +28,6 @@ $raze_total = count( $raze_cards );
 						<span class="card-n mono"><?php echo esc_html( sprintf( '%02d', $raze_i + 1 ) ); ?></span>
 						<a class="card-arrow" href="#contact" data-service="<?php echo esc_attr( $raze_card['name'] ); ?>" aria-label="<?php echo esc_attr( 'Ask about ' . $raze_card['name'] ); ?>"><?php echo raze_icon( 'arrow-ne' ); // phpcs:ignore ?></a>
 					</div>
-					<div class="card-viz"><?php get_template_part( 'template-parts/visuals', null, array( 'type' => $raze_card['visual'] ) ); ?></div>
 					<div class="card-body">
 						<h3 class="card-title"><?php echo esc_html( $raze_card['name'] ); ?></h3>
 						<p class="card-desc"><?php echo esc_html( $raze_card['desc'] ); ?></p>

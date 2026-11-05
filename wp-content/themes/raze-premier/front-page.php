@@ -16,7 +16,6 @@ get_header();
 	raze_section( 'tools' );
 	raze_section( 'services' );
 	raze_section( 'showcase' );
-	raze_section( 'ai-search' );
 	raze_section( 'ticker' );
 	raze_section( 'work' );
 	raze_section( 'process' );

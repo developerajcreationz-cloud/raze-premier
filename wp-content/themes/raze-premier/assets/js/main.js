@@ -246,6 +246,7 @@
 				if (x <= -w) { x += w; }
 				if (x > 0) { x -= w; }
 				track.style.setProperty('--tx', x.toFixed(1) + 'px');
+				track.style.setProperty('--sk', clamp(-boost * 0.5, -12, 12).toFixed(2) + 'deg');
 				requestAnimationFrame(frame);
 			})();
 		}
@@ -442,6 +443,60 @@
 			window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
 		});
 	});
+
+	/* Scrambled labels (decode effect on small mono labels) ------------- */
+
+	if (!reduce) {
+		var glyphs = '!<>-_/[]{}=+*^?#01';
+		$$('.eyebrow, .kicker, .tools-label, .showcase-tag, .footer-h').forEach(function (el) {
+			var node = null;
+			Array.prototype.forEach.call(el.childNodes, function (n) { if (n.nodeType === 3 && n.textContent.trim()) { node = n; } });
+			if (!node) { return; }
+			var final = node.textContent;
+			var run = function () {
+				var step = 0;
+				var steps = 16;
+				(function tick() {
+					step++;
+					var keep = Math.floor(final.length * step / steps);
+					var out = final.slice(0, keep);
+					for (var i = keep; i < final.length; i++) { out += final[i] === ' ' ? ' ' : glyphs[(Math.random() * glyphs.length) | 0]; }
+					node.textContent = out;
+					if (step < steps) { setTimeout(tick, 38); } else { node.textContent = final; }
+				})();
+			};
+			if (el.closest('.hero')) { setTimeout(run, 250); } else { onVisible(el, run); }
+		});
+	}
+
+	/* Custom cursor: a dot that grows on links and says "View" on work -- */
+
+	if (finePointer && !reduce) {
+		var cur = document.createElement('div');
+		cur.className = 'cursor';
+		cur.setAttribute('aria-hidden', 'true');
+		cur.innerHTML = '<span class="cursor-label"></span>';
+		document.body.appendChild(cur);
+		var label = cur.firstChild;
+		var cx = -100, cy = -100, tx = -100, ty = -100;
+		document.addEventListener('pointermove', function (e) {
+			tx = e.clientX; ty = e.clientY;
+			cur.classList.add('is-on');
+			var view = e.target.closest('[data-cursor]');
+			var link = e.target.closest('a, button, summary, label, input, textarea');
+			cur.classList.toggle('is-view', !!view);
+			cur.classList.toggle('is-link', !!link && !view);
+			if (view) { label.textContent = view.getAttribute('data-cursor'); }
+		});
+		document.addEventListener('pointerleave', function () { cur.classList.remove('is-on'); });
+		(function follow() {
+			cx += (tx - cx) * 0.2;
+			cy += (ty - cy) * 0.2;
+			cur.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
+			requestAnimationFrame(follow);
+		})();
+		doc.classList.add('has-cursor');
+	}
 
 	runScrollers();
 })();

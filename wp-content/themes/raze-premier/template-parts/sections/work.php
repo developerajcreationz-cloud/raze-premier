@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 	<div class="wrap work-list">
 		<?php foreach ( raze_work() as $raze_n => $raze_p ) : ?>
 			<article class="case" data-reveal data-case>
-				<div class="case-media">
+				<div class="case-media" data-cursor="View">
 					<?php foreach ( $raze_p['images'] as $raze_k => $raze_img ) : ?>
 						<img class="case-img<?php echo 0 === $raze_k ? ' is-on' : ''; ?>" src="<?php echo esc_url( raze_asset( $raze_img['src'] ) ); ?>" alt="<?php echo esc_attr( $raze_img['alt'] ); ?>" width="1600" height="1067" loading="lazy" decoding="async">
 					<?php endforeach; ?>

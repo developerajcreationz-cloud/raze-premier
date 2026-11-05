@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'RAZE_VERSION', '1.1.0' );
+define( 'RAZE_VERSION', '1.2.0' );
 define( 'RAZE_DIR', get_template_directory() );
 define( 'RAZE_URI', get_template_directory_uri() );
 

@@ -84,14 +84,9 @@ function raze_service_groups() {
 						'tags'  => array( 'Technical SEO', 'Local SEO', 'Answer engines', 'AI search' ),
 					),
 					array(
-						'name'  => 'Google Ads',
-						'desc'  => 'Search, Performance Max and local campaigns, built around the searches that turn into enquiries, not the cheap clicks.',
-						'tags'  => array( 'Search', 'Performance Max', 'Conversion tracking' ),
-					),
-					array(
-						'name'  => 'Meta Ads',
-						'desc'  => 'Facebook and Instagram campaigns with creative we make in-house, tested in small batches before budget goes up.',
-						'tags'  => array( 'Facebook', 'Instagram', 'Creative testing', 'Pixel and CAPI' ),
+						'name'  => 'Meta and Google Ads',
+						'desc'  => 'Search and Performance Max on Google, Facebook and Instagram on Meta. Creative made in-house, tested small before budget goes up, and tracked to the enquiry.',
+						'tags'  => array( 'Google Search', 'Performance Max', 'Facebook', 'Instagram', 'Conversion tracking' ),
 					),
 				),
 			),
@@ -202,7 +197,7 @@ function raze_faqs() {
 				'a' => 'SEO gets your pages ranked in Google results. AEO (answer engine optimisation) gets your content chosen as the direct answer, in featured snippets, voice search and Google AI Overviews. GEO (generative engine optimisation) gets your business named and linked when people ask ChatGPT, Perplexity or Gemini. They share the same base: a fast, well-structured site with clear facts about what you do, plus mentions of you on other trusted sites.',
 			),
 			array(
-				'q' => 'Do I need all seven services?',
+				'q' => 'Do I need all six services?',
 				'a' => 'No. Plenty of clients start with one, usually a website or ads. We suggest adding others only when the numbers show where the gap is.',
 			),
 			array(
@@ -242,27 +237,16 @@ function raze_service_options() {
 }
 
 /**
- * Service cards for the homepage grid: every service, in order, with the
- * small illustration each card draws (see template-parts/visuals.php).
+ * Service cards for the homepage grid: every service, in order.
  *
  * @return array
  */
 function raze_service_cards() {
-	$visuals = array(
-		'Branding'            => 'brand',
-		'Website development' => 'web',
-		'Video editing'       => 'video',
-		'SEO, AEO and GEO'    => 'search',
-		'Google Ads'          => 'gads',
-		'Meta Ads'            => 'meta',
-		'Lead funnels'        => 'funnel',
-	);
 	$cards = array();
 	foreach ( raze_service_groups() as $group ) {
 		foreach ( $group['items'] as $item ) {
-			$item['group']  = $group['id'];
-			$item['visual'] = isset( $visuals[ $item['name'] ] ) ? $visuals[ $item['name'] ] : '';
-			$cards[]        = $item;
+			$item['group'] = $group['id'];
+			$cards[]       = $item;
 		}
 	}
 	return apply_filters( 'raze_content_service_cards', $cards );
