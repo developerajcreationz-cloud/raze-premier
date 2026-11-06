@@ -1071,7 +1071,7 @@ button.rcard:focus-visible { outline: 3px solid var(--p-300); outline-offset: 3p
 
 .lightbox-label { position: absolute; left: 14px; top: 14px; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .92); font-size: 13px; font-weight: 500; }
 .lightbox-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 14px; color: #fff; font-size: 14px; }
-.lightbox-nav button { width: 42px; height: 42px; border: 0; border-radius: 50%; background: #fff; display: grid; place-items: center; cursor: pointer; }
+.lightbox-nav button { width: 42px; height: 42px; border: 0; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; cursor: pointer; }
 .lightbox-nav button .icon { width: 18px; height: 18px; }
 .lightbox-nav button:first-child .icon { transform: rotate(180deg); }
 .lightbox.is-single .lightbox-nav { display: none; }
@@ -1079,3 +1079,4 @@ button.rcard:focus-visible { outline: 3px solid var(--p-300); outline-offset: 3p
 .agents-mark-google { background: #fff; }
 .lresults .stats { max-width: none; }
 .lresults .stats span { max-width: 18ch; }
+.lightbox-x { color: var(--ink); }
