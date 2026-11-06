@@ -86,7 +86,9 @@ function raze_favicon() {
 	if ( has_site_icon() ) {
 		return;
 	}
-	printf( '<link rel="icon" href="%s" type="image/svg+xml">' . "\n", esc_url( RAZE_URI . '/assets/img/favicon.svg' ) );
+	printf( '<link rel="icon" href="%s" sizes="any">' . "\n", esc_url( RAZE_URI . '/assets/img/favicon.ico' ) );
+	printf( '<link rel="icon" href="%s" type="image/png" sizes="192x192">' . "\n", esc_url( RAZE_URI . '/assets/img/favicon-192.png' ) );
+	printf( '<link rel="apple-touch-icon" href="%s">' . "\n", esc_url( RAZE_URI . '/assets/img/apple-touch-icon.png' ) );
 }
 add_action( 'wp_head', 'raze_favicon', 2 );
 

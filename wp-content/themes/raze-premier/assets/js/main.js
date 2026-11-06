@@ -177,21 +177,22 @@
 		});
 	}
 
-	/* Services: the deck fans out as the section scrolls up ---------- */
+	/* Fans: the deck spreads out as the section scrolls up ----------- */
 
-	var fan = $('[data-fan]');
-	if (fan && !reduce) {
-		var setFan = function () {
-			var r = fan.getBoundingClientRect();
-			// 0 when the deck's top is near the bottom of the screen, 1 once it
-			// has risen to about a third of the way down.
-			var p = clamp((vh() * 0.92 - r.top) / (vh() * 0.58), 0, 1);
-			var eased = 1 - Math.pow(1 - p, 3);
-			fan.style.setProperty('--p', eased.toFixed(4));
-			fan.style.setProperty('--fp', clamp(p * 1.4, 0, 1).toFixed(3));
-		};
-		scrollers.push(setFan);
-		setFan();
+	if (!reduce) {
+		$$('[data-fan]').forEach(function (fan) {
+			var setFan = function () {
+				var r = fan.getBoundingClientRect();
+				// 0 when the deck's top is near the bottom of the screen, 1 once
+				// it has risen to about a third of the way down.
+				var p = clamp((vh() * 0.92 - r.top) / (vh() * 0.58), 0, 1);
+				var eased = 1 - Math.pow(1 - p, 3);
+				fan.style.setProperty('--p', eased.toFixed(4));
+				fan.style.setProperty('--fp', clamp(p * 1.4, 0, 1).toFixed(3));
+			};
+			scrollers.push(setFan);
+			setFan();
+		});
 	}
 
 	/* Work: big title slides and fills in ----------------------------- */
@@ -236,35 +237,41 @@
 		});
 	}
 
-	/* Process: run the workflow once it is on screen ------------------ */
+	/* Workflows: nodes complete one after another ------------------- */
 
-	var flow = $('[data-flow]');
-	if (flow) {
+	var flowRuns = [];
+	var runFlow = function (flow) {
 		var nodes = $$('[data-node]', flow);
 		var flowLinks = $$('.flow-link', flow);
 		var split = $('.flow-split', flow);
+		var stepOf = function (el) { return parseInt(el.style.getPropertyValue('--step'), 10) || 0; };
 		var maxStep = 0;
-		nodes.forEach(function (n) { maxStep = Math.max(maxStep, parseInt(n.style.getPropertyValue('--step'), 10) || 0); });
+		nodes.forEach(function (n) { maxStep = Math.max(maxStep, stepOf(n)); });
 
-		var runStep = function (s) {
-			nodes.forEach(function (n) {
-				var ns = parseInt(n.style.getPropertyValue('--step'), 10) || 0;
-				if (ns === s) { n.classList.add('is-active'); }
-			});
+		// Cancel a run already in progress, then start clean.
+		var run = (flow._run || 0) + 1;
+		flow._run = run;
+		nodes.forEach(function (n) { n.classList.remove('is-active', 'is-done'); });
+		flowLinks.forEach(function (l) { l.classList.remove('is-on'); });
+		if (split) { split.classList.remove('is-on'); }
+
+		var step = function (st) {
+			if (flow._run !== run) { return; }
+			nodes.forEach(function (n) { if (stepOf(n) === st) { n.classList.add('is-active'); } });
 			setTimeout(function () {
-				nodes.forEach(function (n) {
-					var ns = parseInt(n.style.getPropertyValue('--step'), 10) || 0;
-					if (ns === s) { n.classList.remove('is-active'); n.classList.add('is-done'); }
-				});
-				flowLinks.forEach(function (l) {
-					if ((parseInt(l.style.getPropertyValue('--step'), 10) || 0) === s) { l.classList.add('is-on'); }
-				});
-				if (split && s === maxStep - 1) { split.classList.add('is-on'); }
-				if (s < maxStep) { setTimeout(function () { runStep(s + 1); }, 260); }
-			}, reduce ? 0 : 820);
+				if (flow._run !== run) { return; }
+				nodes.forEach(function (n) { if (stepOf(n) === st) { n.classList.remove('is-active'); n.classList.add('is-done'); } });
+				flowLinks.forEach(function (l) { if (stepOf(l) === st) { l.classList.add('is-on'); } });
+				if (split && st === maxStep - 1) { split.classList.add('is-on'); }
+				if (st < maxStep) { setTimeout(function () { step(st + 1); }, 240); }
+			}, reduce ? 0 : 780);
 		};
-		onVisible(flow, function () { runStep(0); }, { rootMargin: '0px 0px -25% 0px', threshold: 0.2 });
-	}
+		step(0);
+	};
+	$$('[data-flow]').forEach(function (flow) {
+		flowRuns.push(flow);
+		onVisible(flow, function (f) { f._seen = true; if (!f.closest('[hidden]')) { runFlow(f); } }, { rootMargin: '0px 0px -25% 0px', threshold: 0.2 });
+	});
 
 	/* Results: curve, counters and the quote that lights up ----------- */
 
@@ -383,8 +390,14 @@
 				var on = t === tab;
 				t.setAttribute('aria-selected', on ? 'true' : 'false');
 				t.tabIndex = on ? 0 : -1;
-				var panel = document.getElementById(t.getAttribute('aria-controls'));
-				if (panel) { panel.hidden = !on; }
+				var id = t.getAttribute('aria-controls');
+				var panel = document.getElementById(id);
+				if (panel) {
+					panel.hidden = !on;
+					var f = on && $('[data-flow]', panel);
+					if (f && f._seen) { runFlow(f); }
+				}
+				$$('[data-for="' + id + '"]').forEach(function (c) { c.hidden = !on; });
 			});
 			if (focus) { tab.focus(); }
 		};
@@ -423,6 +436,39 @@
 		});
 		$('[data-lightbox-close]', dialog).addEventListener('click', function () { dialog.close(); });
 		dialog.addEventListener('click', function (e) { if (e.target === dialog) { dialog.close(); } });
+	}
+
+	var gal = $('[data-gallery-dialog]');
+	if (gal && typeof gal.showModal === 'function') {
+		var gImg = $('[data-gallery-img]', gal);
+		var gLabel = $('[data-gallery-label]', gal);
+		var gCount = $('[data-gallery-count]', gal);
+		var gItems = [];
+		var gAt = 0;
+		var gShow = function (i) {
+			gAt = (i + gItems.length) % gItems.length;
+			gImg.src = gItems[gAt].src;
+			gImg.alt = gItems[gAt].alt;
+			gLabel.textContent = gItems[gAt].label;
+			gCount.textContent = (gAt + 1) + ' / ' + gItems.length;
+			gal.classList.toggle('is-single', gItems.length < 2);
+		};
+		$$('[data-gallery]').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				try { gItems = JSON.parse(btn.getAttribute('data-gallery')) || []; } catch (err) { gItems = []; }
+				if (!gItems.length) { return; }
+				gShow(0);
+				gal.showModal();
+			});
+		});
+		$('[data-gallery-prev]', gal).addEventListener('click', function () { gShow(gAt - 1); });
+		$('[data-gallery-next]', gal).addEventListener('click', function () { gShow(gAt + 1); });
+		$('[data-gallery-close]', gal).addEventListener('click', function () { gal.close(); });
+		gal.addEventListener('click', function (e) { if (e.target === gal) { gal.close(); } });
+		gal.addEventListener('keydown', function (e) {
+			if (e.key === 'ArrowRight') { gShow(gAt + 1); }
+			if (e.key === 'ArrowLeft') { gShow(gAt - 1); }
+		});
 	}
 
 	$$('.lsteps, [data-flowline]').forEach(function (el) {

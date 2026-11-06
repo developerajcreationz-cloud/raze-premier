@@ -73,14 +73,18 @@ function raze_section( $name, $args = array() ) {
 }
 
 /**
- * The Raze Premier wordmark set in type: "raze" with the motion-blur ghost
- * from the logo, and PREMIER spaced out underneath.
+ * The Raze Premier logo: the white "raze PREMIER" mark, motion blur and
+ * all, cut out of the brand artwork so it sits on any dark background.
  *
  * @param string $class Extra class.
  * @return string
  */
 function raze_wordmark( $class = '' ) {
-	return '<span class="wordmark ' . esc_attr( $class ) . '" aria-hidden="true"><span class="wm-raze" data-text="raze">raze</span><span class="wm-premier">Premier</span></span>';
+	return sprintf(
+		'<img class="logo %1$s" src="%2$s" width="748" height="263" alt="" decoding="async">',
+		esc_attr( $class ),
+		esc_url( raze_asset( 'img/logo-white.webp' ) )
+	);
 }
 
 /**
@@ -100,4 +104,39 @@ function raze_highlight( $text ) {
 		}
 	}
 	return $out;
+}
+
+/**
+ * One node of a workflow chart (the "How a project runs" style).
+ *
+ * @param array $node icon, title, body, optional tag.
+ * @param int   $step Order in the run; nodes with the same step run together.
+ */
+function raze_flow_node( $node, $step ) {
+	?>
+	<div class="node" data-node style="--step:<?php echo (int) $step; ?>">
+		<?php if ( ! empty( $node['tag'] ) ) : ?>
+			<span class="node-tag"><?php echo esc_html( $node['tag'] ); ?></span>
+		<?php endif; ?>
+		<span class="node-done"><?php echo raze_icon( 'check' ); // phpcs:ignore ?>Done</span>
+		<p class="node-title"><span class="node-ic"><?php echo raze_icon( isset( $node['icon'] ) ? $node['icon'] : 'check' ); // phpcs:ignore ?></span><?php echo esc_html( $node['title'] ); ?></p>
+		<p class="node-body"><?php echo esc_html( $node['body'] ); ?></p>
+	</div>
+	<?php
+}
+
+/**
+ * A straight workflow chart: nodes joined by links, run one after another.
+ *
+ * @param array $nodes Nodes.
+ */
+function raze_flow_line( $nodes ) {
+	echo '<div class="flow" data-flow>';
+	foreach ( array_values( $nodes ) as $i => $node ) {
+		raze_flow_node( $node, $i );
+		if ( $i < count( $nodes ) - 1 ) {
+			echo '<span class="flow-link" style="--step:' . (int) $i . '" aria-hidden="true"></span>';
+		}
+	}
+	echo '</div>';
 }

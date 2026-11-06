@@ -51,7 +51,7 @@ function raze_head_meta() {
 	}
 	$desc  = raze_meta_description();
 	$title = wp_get_document_title();
-	$img   = raze_asset( 'img/work/framily-adventures-04-brand-system-overview.webp' );
+	$img   = raze_asset( 'img/raze-logo-og.jpg' );
 	?>
 	<meta name="description" content="<?php echo esc_attr( $desc ); ?>">
 	<meta property="og:type" content="website">
@@ -93,7 +93,8 @@ function raze_schema() {
 		'name'        => 'Raze Premier',
 		'url'         => home_url( '/' ),
 		'description' => raze_meta_description(),
-		'image'       => raze_asset( 'img/favicon.svg' ),
+		'image'       => raze_asset( 'img/raze-logo-og.jpg' ),
+		'logo'        => raze_asset( 'img/favicon-512.png' ),
 		'hasOfferCatalog' => array(
 			'@type'           => 'OfferCatalog',
 			'name'            => 'Services',

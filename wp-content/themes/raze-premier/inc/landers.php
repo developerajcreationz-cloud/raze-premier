@@ -63,6 +63,8 @@ function raze_landers() {
 				),
 			),
 
+			'statement' => 'Buyers no longer stop at the first page of Google. They ask AI Overviews, ChatGPT and Perplexity, and take the answer they are given. We make sure that [[your brand is the answer]], on Google and in every assistant your buyers use.',
+
 			'layers'   => array(
 				'title' => 'Three layers of search, one strategy',
 				'sub'   => 'Search now happens on Google, in answer boxes and inside AI assistants. Winning one and missing the others leaves buyers on the table, so we build all three together.',
@@ -92,7 +94,7 @@ function raze_landers() {
 			),
 
 			'results'  => array(
-				'title'   => 'Real Search Console results',
+				'title'   => array( 'Real results,', 'straight from Search Console' ),
 				'sub'     => 'Straight from Google Search Console: the last six months compared with the six before. Pick a project, switch the view, and open any screenshot full size.',
 				'summary' => array(
 					array( 'value' => '+144%', 'label' => 'Best click growth' ),
@@ -103,6 +105,8 @@ function raze_landers() {
 				'projects' => array(
 					array(
 						'name'  => 'Project A',
+						'big'   => '+119%',
+						'small' => 'clicks, and 311k Google AI impressions from zero',
 						'tab'   => '+119% clicks, 311k AI impressions',
 						'title' => 'Doubled organic traffic and became a source for Google AI',
 						'kpis'  => array(
@@ -118,6 +122,8 @@ function raze_landers() {
 					),
 					array(
 						'name'  => 'Project B',
+						'big'   => '+247%',
+						'small' => 'impressions, and 2.4 times the clicks',
 						'tab'   => '+144% clicks, +247% impressions',
 						'title' => '2.4 times the clicks and 3.5 times the impressions',
 						'kpis'  => array(
@@ -133,6 +139,8 @@ function raze_landers() {
 					),
 					array(
 						'name'  => 'Project C',
+						'big'   => '20.5k',
+						'small' => 'Google AI impressions, up from zero',
 						'tab'   => '0 to 20.5k AI impressions',
 						'title' => 'From zero to 20.5k AI impressions',
 						'kpis'  => array(
@@ -148,6 +156,9 @@ function raze_landers() {
 			),
 
 			'process'  => array(
+				'style' => 'flow',
+				'kicker' => 'How a project runs',
+				'body'  => 'Every engagement starts with a free audit, so you see the plan and the gaps before you pay for anything. Then the work ships every month and is reported from your own Search Console.',
 				'title' => 'A clear path from audit to authority',
 				'steps' => array(
 					array( 'Audit and baseline', 'Technical, content and AI visibility audit to find the fastest wins and the biggest gaps.' ),
@@ -181,6 +192,7 @@ function raze_landers() {
 
 			'bridge'   => array(
 				'to'    => 'ghl',
+				'marks' => array( 'google', 'chatgpt', 'gemini' ),
 				'title' => 'Rankings bring visitors. Follow-up turns them into customers.',
 				'sub'   => 'SEO and AI visibility fill the top of your funnel, but most enquiries go cold if nobody replies fast. We connect your organic leads to a GoHighLevel pipeline, so everyone who gets in touch gets an instant reply, timed follow-up and a booking link.',
 				'flow'  => array(
@@ -258,6 +270,8 @@ function raze_landers() {
 				),
 			),
 
+			'statement' => 'Most leads are lost after the click, not before it. A missed call, a slow reply, a quote nobody chased. We build the system that [[answers in seconds]], follows up on its own and [[books the call for you.]]',
+
 			'layers'   => array(
 				'title' => 'Capture, convert, automate',
 				'sub'   => 'Most businesses lose leads between the ad click and the first reply. We close those gaps with three connected layers, all inside one GoHighLevel account.',
@@ -316,6 +330,7 @@ function raze_landers() {
 			),
 
 			'process'  => array(
+				'style' => 'cards',
 				'title' => 'From audit to a system that runs itself',
 				'steps' => array(
 					array( 'Audit and map', 'We review your lead sources, tools and sales process, then map the system you actually need.' ),
@@ -339,6 +354,7 @@ function raze_landers() {
 
 			'bridge'   => array(
 				'to'    => 'seo',
+				'marks' => array( 'google', 'chatgpt', 'gemini' ),
 				'title' => 'Automation works best when there is traffic to follow up.',
 				'sub'   => 'GoHighLevel turns leads into customers, and we also grow the organic traffic and AI visibility that feeds it. SEO fills the pipeline, GoHighLevel converts it, and the two are measured as one system.',
 				'flow'  => array(
@@ -524,6 +540,7 @@ function raze_render_lander( $id ) {
 	get_header();
 	echo '<main id="main" class="lander lander-' . esc_attr( $id ) . '">';
 	raze_lander_part( 'hero', $id );
+	raze_lander_part( 'statement', $id );
 	raze_lander_part( 'layers', $id );
 	if ( ! empty( $l['results'] ) ) {
 		raze_lander_part( 'results', $id );
