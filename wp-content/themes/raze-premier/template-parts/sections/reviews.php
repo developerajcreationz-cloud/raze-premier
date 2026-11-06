@@ -117,7 +117,14 @@ $raze_platforms = array(
 						<span class="clients-ic"><?php echo raze_icon( $raze_c['icon'] ); // phpcs:ignore ?></span>
 						<b><?php echo esc_html( $raze_c['industry'] ); ?></b>
 						<span class="clients-place"><?php echo esc_html( $raze_c['place'] ); ?></span>
-						<small><?php echo esc_html( ! empty( $raze_c['work'] ) ? $raze_c['work'] : $raze_c['note'] ); ?></small>
+						<small><?php echo esc_html( $raze_c['note'] ); ?></small>
+						<?php if ( ! empty( $raze_c['work'] ) ) : ?>
+							<ul class="clients-work">
+								<?php foreach ( (array) $raze_c['work'] as $raze_w ) : ?>
+									<li><?php echo esc_html( $raze_w ); ?></li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
 					</li>
 				<?php endforeach; ?>
 			</ul>

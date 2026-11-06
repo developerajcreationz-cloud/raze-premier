@@ -476,7 +476,7 @@ function raze_statement() {
 /**
  * Who we have worked with, kept anonymous for client privacy: industry and
  * country only, never a name, logo or link. Shown under the wall of love.
- * Add 'work' (what we did, in a few words) to any entry to show it.
+ * 'work' lists what we did for that client; each item shows as a tag.
  *
  * @return array
  */
@@ -484,10 +484,10 @@ function raze_clients() {
 	return apply_filters(
 		'raze_content_clients',
 		array(
-			array( 'icon' => 'rocket', 'industry' => 'Industrial air treatment manufacturer', 'place' => 'Italy', 'note' => 'Family business since 1985' ),
-			array( 'icon' => 'brand', 'industry' => 'Construction and renovation company', 'place' => 'Netherlands', 'note' => 'Renovation, refits and finishing' ),
-			array( 'icon' => 'chart', 'industry' => 'Removals and courier company', 'place' => 'United Kingdom', 'note' => 'Nationwide moves and same-day delivery' ),
-			array( 'icon' => 'search', 'industry' => 'Independent realtor', 'place' => 'Florida, USA', 'note' => 'Homes across four counties' ),
+			array( 'icon' => 'rocket', 'industry' => 'Industrial air treatment manufacturer', 'place' => 'Italy', 'note' => 'Family business since 1985', 'work' => array( 'Website development', 'SEO', 'Social media management', 'Meta Ads' ) ),
+			array( 'icon' => 'brand', 'industry' => 'Construction and renovation company', 'place' => 'Netherlands', 'note' => 'Renovation, refits and finishing', 'work' => array( 'Website development', 'SEO', 'Social media management', 'Meta Ads' ) ),
+			array( 'icon' => 'chart', 'industry' => 'Removals and courier company', 'place' => 'United Kingdom', 'note' => 'Nationwide moves and same-day delivery', 'work' => array( 'Website development', 'SEO', 'Social media management', 'Meta Ads' ) ),
+			array( 'icon' => 'search', 'industry' => 'Independent realtor', 'place' => 'Florida, USA', 'note' => 'Homes across four counties', 'work' => array( 'Website development', 'SEO', 'Social media management', 'Meta Ads' ) ),
 		)
 	);
 }

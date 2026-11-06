@@ -1103,3 +1103,5 @@ button.rcard:focus-visible { outline: 3px solid var(--p-300); outline-offset: 3p
 @media (max-width: 900px) { .clients-list { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .clients-list { grid-template-columns: 1fr; } }
 .review-quote mark { background: #e3e8fb; color: var(--ink); padding: 1px 4px; border-radius: 6px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.clients-work { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 14px; }
+.clients-work li { padding: 4px 10px; border-radius: 999px; background: var(--p-50); color: var(--p-600); font-size: 12px; font-weight: 500; }
