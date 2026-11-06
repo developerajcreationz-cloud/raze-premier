@@ -43,6 +43,18 @@ function raze_icon( $name ) {
 		'menu'     => '<path d="M4 8h16M4 16h16" />',
 		'close'    => '<path d="M6 6l12 12M18 6 6 18" />',
 		'copy'     => '<rect x="8" y="8" width="11" height="11" rx="2" /><path d="M5 15V6a1 1 0 0 1 1-1h9" />',
+		'brand'    => '<path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z" /><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z" />',
+		'web'      => '<rect x="3" y="4" width="18" height="16" rx="2.5" /><path d="M3 9h18M6.5 6.5h.01M9 6.5h.01M8 13l-2 2 2 2M16 13l2 2-2 2M13 12.5l-2 5" />',
+		'video'    => '<rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="M10 9.2v5.6l4.8-2.8z" />',
+		'search'   => '<circle cx="11" cy="11" r="6.5" /><path d="M20 20l-4.2-4.2M8.5 11h5M11 8.5v5" />',
+		'ads'      => '<path d="M4 10v4a1 1 0 0 0 1 1h2l6 4V5L7 9H5a1 1 0 0 0-1 1z" /><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11" />',
+		'funnel'   => '<path d="M3.5 5h17l-6.5 7.5V19l-4 1.5v-8z" />',
+		'bell'     => '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z" /><path d="M10 20.5a2 2 0 0 0 4 0" />',
+		'doc'      => '<path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" /><path d="M14 3v5h5M9 13h6M9 17h4" />',
+		'rocket'   => '<path d="M14 4c3-1 6-1 6-1s0 3-1 6l-6 6-4-4z" /><path d="M9 11l-4 .5L3 14l4 1M13 15l-.5 4L10 21l-1-4M15.5 8.5h.01" />',
+		'chart'    => '<path d="M4 20V4M4 20h16" /><path d="M8 16l3.5-4 3 2.5L20 8" />',
+		'check'    => '<path d="M5 12.5l4.5 4.5L19 7.5" />',
+		'star'     => '<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z" />',
 	);
 	if ( ! isset( $icons[ $name ] ) ) {
 		return '';
@@ -58,4 +70,34 @@ function raze_icon( $name ) {
  */
 function raze_section( $name, $args = array() ) {
 	get_template_part( 'template-parts/sections/' . $name, null, $args );
+}
+
+/**
+ * The Raze Premier wordmark set in type: "raze" with the motion-blur ghost
+ * from the logo, and PREMIER spaced out underneath.
+ *
+ * @param string $class Extra class.
+ * @return string
+ */
+function raze_wordmark( $class = '' ) {
+	return '<span class="wordmark ' . esc_attr( $class ) . '" aria-hidden="true"><span class="wm-raze" data-text="raze">raze</span><span class="wm-premier">Premier</span></span>';
+}
+
+/**
+ * Turn [[words]] into highlighted spans, escaping everything else.
+ *
+ * @param string $text Text.
+ * @return string
+ */
+function raze_highlight( $text ) {
+	$parts = preg_split( '/(\[\[.*?\]\])/u', (string) $text, -1, PREG_SPLIT_DELIM_CAPTURE );
+	$out   = '';
+	foreach ( $parts as $part ) {
+		if ( preg_match( '/^\[\[(.*)\]\]$/u', $part, $m ) ) {
+			$out .= '<mark>' . esc_html( $m[1] ) . '</mark>';
+		} else {
+			$out .= esc_html( $part );
+		}
+	}
+	return $out;
 }

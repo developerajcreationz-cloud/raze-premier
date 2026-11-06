@@ -66,7 +66,7 @@ function raze_head_meta() {
 add_action( 'wp_head', 'raze_head_meta', 3 );
 
 /**
- * Organization, services and FAQ structured data.
+ * Organization and services structured data, plus FAQ when it is shown.
  */
 function raze_schema() {
 	if ( ! is_front_page() ) {
@@ -111,20 +111,6 @@ function raze_schema() {
 		$org['sameAs'] = $same_as;
 	}
 
-	$faq = array(
-		'@type'      => 'FAQPage',
-		'mainEntity' => array_map(
-			function ( $f ) {
-				return array(
-					'@type'          => 'Question',
-					'name'           => $f['q'],
-					'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $f['a'] ),
-				);
-			},
-			raze_faqs()
-		),
-	);
-
 	$graph = array(
 		'@context' => 'https://schema.org',
 		'@graph'   => array(
@@ -136,9 +122,27 @@ function raze_schema() {
 				'publisher' => array( '@id' => home_url( '/#organization' ) ),
 			),
 			$org,
-			$faq,
 		),
 	);
+
+	// FAQPage markup only when the FAQ section is on the page (Google requires
+	// the questions to be visible). Add raze_section( 'faq' ) to front-page.php
+	// and hook this filter to return true to bring it back.
+	if ( apply_filters( 'raze_show_faq_schema', false ) ) {
+		$graph['@graph'][] = array(
+			'@type'      => 'FAQPage',
+			'mainEntity' => array_map(
+				function ( $f ) {
+					return array(
+						'@type'          => 'Question',
+						'name'           => $f['q'],
+						'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $f['a'] ),
+					);
+				},
+				raze_faqs()
+			),
+		);
+	}
 
 	echo '<script type="application/ld+json">' . wp_json_encode( $graph, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
 }

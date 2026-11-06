@@ -7,13 +7,13 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'RAZE_VERSION', '1.2.0' );
+define( 'RAZE_VERSION', '2.0.0' );
 define( 'RAZE_DIR', get_template_directory() );
 define( 'RAZE_URI', get_template_directory_uri() );
 
 require RAZE_DIR . '/inc/helpers.php';
 require RAZE_DIR . '/inc/content.php';
-require RAZE_DIR . '/inc/tools.php';
+require RAZE_DIR . '/inc/marks.php';
 require RAZE_DIR . '/inc/customizer.php';
 require RAZE_DIR . '/inc/leads.php';
 require RAZE_DIR . '/inc/seo.php';

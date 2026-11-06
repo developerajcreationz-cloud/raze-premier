@@ -14,30 +14,28 @@ $raze_whatsapp = raze_opt( 'whatsapp' );
 $raze_book     = raze_opt( 'booking_url' );
 ?>
 <section class="contact" id="contact">
-	<div class="contact-card">
-		<div class="contact-grid">
-			<div class="contact-copy">
-				<p class="kicker kicker-light" data-reveal>Start here</p>
-				<h2 class="h-xl" data-split>Tell us what you sell and who buys it.</h2>
-				<p class="lede" data-reveal style="--d:.12s">We will look at your site, search presence and ads before the call, and come back with what we would do first. No obligation.</p>
+	<div class="wrap contact-grid">
+		<div class="contact-copy">
+			<h2 class="contact-title" data-reveal>Let&rsquo;s bring your <span class="grad-text">ideas</span> to life</h2>
+			<p class="lede" data-reveal style="--d:.12s">Tell us what you sell and who buys it. We will look at your site, search presence and ads before the call, and come back with what we would do first. No obligation.</p>
 
-				<ul class="contact-direct" data-reveal style="--d:.18s">
-					<?php if ( $raze_book ) : ?>
-						<li><a href="<?php echo esc_url( $raze_book ); ?>" target="_blank" rel="noopener">Pick a time on the calendar <?php echo raze_icon( 'arrow-ne' ); // phpcs:ignore ?></a></li>
-					<?php endif; ?>
-					<?php if ( $raze_email ) : ?>
-						<li><a href="mailto:<?php echo esc_attr( antispambot( $raze_email ) ); ?>"><?php echo esc_html( antispambot( $raze_email ) ); ?></a></li>
-					<?php endif; ?>
-					<?php if ( $raze_whatsapp ) : ?>
-						<li><a href="<?php echo esc_url( 'https://wa.me/' . $raze_whatsapp ); ?>" target="_blank" rel="noopener">WhatsApp us <?php echo raze_icon( 'arrow-ne' ); // phpcs:ignore ?></a></li>
-					<?php endif; ?>
-					<?php if ( $raze_phone ) : ?>
-						<li><a href="<?php echo esc_attr( 'tel:' . preg_replace( '/[^\d+]/', '', $raze_phone ) ); ?>"><?php echo esc_html( $raze_phone ); ?></a></li>
-					<?php endif; ?>
-				</ul>
-			</div>
+			<ul class="contact-direct" data-reveal style="--d:.18s">
+				<?php if ( $raze_book ) : ?>
+					<li><a href="<?php echo esc_url( $raze_book ); ?>" target="_blank" rel="noopener">Pick a time on the calendar <?php echo raze_icon( 'arrow-ne' ); // phpcs:ignore ?></a></li>
+				<?php endif; ?>
+				<?php if ( $raze_email ) : ?>
+					<li><a href="mailto:<?php echo esc_attr( antispambot( $raze_email ) ); ?>"><?php echo esc_html( antispambot( $raze_email ) ); ?></a></li>
+				<?php endif; ?>
+				<?php if ( $raze_whatsapp ) : ?>
+					<li><a href="<?php echo esc_url( 'https://wa.me/' . $raze_whatsapp ); ?>" target="_blank" rel="noopener">WhatsApp us <?php echo raze_icon( 'arrow-ne' ); // phpcs:ignore ?></a></li>
+				<?php endif; ?>
+				<?php if ( $raze_phone ) : ?>
+					<li><a href="<?php echo esc_attr( 'tel:' . preg_replace( '/[^\d+]/', '', $raze_phone ) ); ?>"><?php echo esc_html( $raze_phone ); ?></a></li>
+				<?php endif; ?>
+			</ul>
+		</div>
 
-			<form class="form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" data-form data-reveal style="--d:.1s">
+		<form class="form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" data-form data-reveal style="--d:.1s">
 				<?php if ( $raze_status ) : ?>
 					<p class="form-status form-status-<?php echo esc_attr( $raze_status[0] ); ?>" role="status" tabindex="-1" data-status><?php echo esc_html( $raze_status[1] ); ?></p>
 				<?php endif; ?>
@@ -85,9 +83,8 @@ $raze_book     = raze_opt( 'booking_url' );
 					<textarea id="f-message" name="message" rows="4" required></textarea>
 				</div>
 
-				<button class="btn btn-signal btn-lg btn-block" type="submit">Send enquiry <?php echo raze_icon( 'arrow' ); // phpcs:ignore ?></button>
+				<button class="btn btn-light btn-lg btn-block" type="submit">Send enquiry <?php echo raze_icon( 'arrow' ); // phpcs:ignore ?></button>
 				<p class="form-fine">We only use these details to reply to you.</p>
 			</form>
-		</div>
 	</div>
 </section>

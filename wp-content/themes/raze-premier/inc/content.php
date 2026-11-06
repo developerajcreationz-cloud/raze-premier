@@ -15,30 +15,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Words that rotate inside the hero headline.
- *
- * @return string[]
- */
-function raze_hero_places() {
-	return apply_filters(
-		'raze_content_hero_places',
-		array( 'on Google', 'in ChatGPT', 'on Maps', 'on Instagram', 'in Perplexity', 'on YouTube' )
-	);
-}
-
-/**
- * Places customers search, shown in the scrolling strip.
- *
- * @return string[]
- */
-function raze_search_surfaces() {
-	return apply_filters(
-		'raze_content_search_surfaces',
-		array( 'Google Search', 'Google Maps', 'ChatGPT', 'Perplexity', 'Gemini', 'AI Overviews', 'Instagram', 'Facebook', 'YouTube', 'Bing' )
-	);
-}
-
-/**
  * Services, grouped by the outcome the client is buying.
  *
  * @return array
@@ -56,16 +32,22 @@ function raze_service_groups() {
 				'items'   => array(
 					array(
 						'name'  => 'Branding',
+						'icon'  => 'brand',
+						'line'  => 'A look and a voice your team can use without us.',
 						'desc'  => 'Positioning, name checks, logo system, colour and type, and a guideline your team can follow without us.',
 						'tags'  => array( 'Logo system', 'Brand guidelines', 'Stationery', 'Social templates' ),
 					),
 					array(
 						'name'  => 'Website development',
+						'icon'  => 'web',
+						'line'  => 'Fast on a phone, easy to edit, built for search.',
 						'desc'  => 'WordPress, Shopify or custom builds. Fast on a phone, easy for you to edit, and set up for search from the first page.',
 						'tags'  => array( 'WordPress', 'Shopify', 'Custom code', 'Speed and tracking' ),
 					),
 					array(
 						'name'  => 'Video editing',
+						'icon'  => 'video',
+						'line'  => 'Edited for the first two seconds as much as the last.',
 						'desc'  => 'Reels, shorts, ad cuts and longer brand films, edited for the first two seconds as much as the last.',
 						'tags'  => array( 'Reels and shorts', 'Ad creative', 'Captions', 'Brand films' ),
 					),
@@ -80,11 +62,15 @@ function raze_service_groups() {
 				'items'   => array(
 					array(
 						'name'  => 'SEO, AEO and GEO',
+						'icon'  => 'search',
+						'line'  => 'Rank in Google, get named by AI assistants.',
 						'desc'  => 'Technical fixes, pages and content that rank in Google, get picked as the direct answer, and get named by AI assistants.',
 						'tags'  => array( 'Technical SEO', 'Local SEO', 'Answer engines', 'AI search' ),
 					),
 					array(
 						'name'  => 'Meta and Google Ads',
+						'icon'  => 'ads',
+						'line'  => 'Tested small, scaled on what books calls.',
 						'desc'  => 'Search and Performance Max on Google, Facebook and Instagram on Meta. Creative made in-house, tested small before budget goes up, and tracked to the enquiry.',
 						'tags'  => array( 'Google Search', 'Performance Max', 'Facebook', 'Instagram', 'Conversion tracking' ),
 					),
@@ -99,6 +85,8 @@ function raze_service_groups() {
 				'items'   => array(
 					array(
 						'name'  => 'Lead funnels',
+						'icon'  => 'funnel',
+						'line'  => 'Every click followed up, every lead tagged.',
 						'desc'  => 'Landing pages, forms, booking and automatic follow-up by email, SMS or WhatsApp, with every lead tagged by the campaign that brought it in.',
 						'tags'  => array( 'Landing pages', 'Booking', 'Follow-up automation', 'CRM pipeline' ),
 					),
@@ -253,10 +241,194 @@ function raze_service_cards() {
 }
 
 /**
- * Words for the big scrolling ticker.
+ * Hero: the rotating place inside the headline, each with its brand mark.
  *
- * @return string[]
+ * @return array mark slug => label
  */
-function raze_ticker_words() {
-	return apply_filters( 'raze_content_ticker', array( 'Brand', 'Websites', 'Search', 'Ads', 'Video', 'Funnels' ) );
+function raze_hero_surfaces() {
+	return apply_filters(
+		'raze_content_hero_surfaces',
+		array(
+			'google'     => 'Google',
+			'chatgpt'    => 'ChatGPT',
+			'gemini'     => 'Gemini',
+			'perplexity' => 'Perplexity',
+			'instagram'  => 'Instagram',
+			'maps'       => 'Maps',
+			'claude'     => 'Claude',
+			'youtube'    => 'YouTube',
+		)
+	);
+}
+
+/**
+ * Hero background: marks floating in three depth layers.
+ * x and y are percentages of the hero, s is the size in px.
+ *
+ * @return array
+ */
+function raze_hero_floaters() {
+	return apply_filters(
+		'raze_content_hero_floaters',
+		array(
+			'far'  => array(
+				array( 'm' => 'youtube', 'x' => 8, 'y' => 18, 's' => 34 ),
+				array( 'm' => 'tiktok', 'x' => 30, 'y' => 8, 's' => 30 ),
+				array( 'm' => 'facebook', 'x' => 71, 'y' => 10, 's' => 30 ),
+				array( 'm' => 'maps', 'x' => 93, 'y' => 30, 's' => 34 ),
+				array( 'm' => 'meta', 'x' => 4, 'y' => 70, 's' => 32 ),
+				array( 'm' => 'claude', 'x' => 95, 'y' => 82, 's' => 30 ),
+			),
+			'mid'  => array(
+				array( 'm' => 'perplexity', 'x' => 17, 'y' => 34, 's' => 44 ),
+				array( 'm' => 'instagram', 'x' => 83, 'y' => 22, 's' => 44 ),
+				array( 'm' => 'gemini', 'x' => 12, 'y' => 84, 's' => 46 ),
+				array( 'm' => 'youtube', 'x' => 76, 'y' => 88, 's' => 40 ),
+			),
+			'near' => array(
+				array( 'm' => 'chatgpt', 'x' => 10, 'y' => 54, 's' => 58 ),
+				array( 'm' => 'google', 'x' => 88, 'y' => 56, 's' => 58 ),
+				array( 'm' => 'claude', 'x' => 26, 'y' => 90, 's' => 50 ),
+				array( 'm' => 'meta', 'x' => 64, 'y' => 6, 's' => 48 ),
+			),
+		)
+	);
+}
+
+/**
+ * Lines for the statement above the services. The last word of each line
+ * is set large, the way the reference site builds its values intro.
+ *
+ * @return array
+ */
+function raze_values_statement() {
+	return apply_filters(
+		'raze_content_values_statement',
+		array(
+			'lead'  => 'When we build for you, we build',
+			'words' => array( 'clearly.', 'quickly.', 'measurably.' ),
+			'motto' => array( 'Shipped', 'is better than perfect on paper.' ),
+		)
+	);
+}
+
+/**
+ * How a project runs, drawn as a workflow. The first node is the trigger,
+ * the last two run side by side.
+ *
+ * @return array
+ */
+function raze_workflow() {
+	return apply_filters(
+		'raze_content_workflow',
+		array(
+			array(
+				'icon'  => 'bell',
+				'tag'   => 'Trigger',
+				'title' => 'You get in touch',
+				'body'  => 'Book a call or send the form at the bottom of this page.',
+			),
+			array(
+				'icon'  => 'search',
+						'line'  => 'Rank in Google, get named by AI assistants.',
+				'title' => 'A look under the hood',
+				'body'  => 'We check your site, search, ads and tracking first.',
+			),
+			array(
+				'icon'  => 'doc',
+				'title' => 'Written plan, fixed quote',
+				'body'  => 'What we would do first, what it costs, what to expect.',
+			),
+			array(
+				'icon'  => 'rocket',
+				'title' => 'Build and launch',
+				'body'  => 'Brand, site, campaigns and funnel go live together.',
+			),
+			array(
+				'icon'  => 'chart',
+				'title' => 'Track and report',
+				'body'  => 'Leads and cost per lead each month, then the next move.',
+			),
+		)
+	);
+}
+
+/**
+ * Results row. Every figure here is a fact about how we work, not a client
+ * result. Replace with real client numbers once you have permission to use them.
+ *
+ * @return array
+ */
+function raze_results_stats() {
+	return apply_filters(
+		'raze_content_results_stats',
+		array(
+			array( 'value' => (string) count( raze_service_cards() ), 'label' => 'services under one roof' ),
+			array( 'value' => '4', 'label' => 'steps from first call to launch' ),
+			array( 'value' => '1', 'label' => 'report a month, in plain numbers' ),
+			array( 'value' => '0', 'label' => 'accounts kept in our name' ),
+		)
+	);
+}
+
+/**
+ * Wall of love.
+ *
+ * The cards marked 'sample' are placeholders that show the layout. They are
+ * labelled "Sample" on the page. Replace each one with a real review (and set
+ * 'sample' to false) or delete it. Never publish a made-up review as real.
+ *
+ * Wrap words in [[double brackets]] to highlight them.
+ *
+ * @return array
+ */
+function raze_reviews() {
+	return apply_filters(
+		'raze_content_reviews',
+		array(
+			array(
+				'sample' => false,
+				'source' => 'Framily Adventures',
+				'title'  => 'A brand built around the people',
+				'body'   => 'Travel isn’t just about the places you go, [[it’s about the people you meet along the way.]]',
+				'name'   => 'Derachio Jackson',
+				'role'   => 'Creative Director, Framily Adventures',
+			),
+			array(
+				'sample' => true,
+				'title'  => 'Finally one team for the site and the ads',
+				'body'   => 'Before, the designer, the developer and the ads person never spoke. Now [[the site, the campaigns and the tracking are set up together]], and I get one report that makes sense.',
+				'name'   => 'Client name',
+				'role'   => 'Role, company',
+			),
+			array(
+				'sample' => true,
+				'title'  => 'We show up in AI answers now',
+				'body'   => 'We asked ChatGPT and Perplexity about our category and never came up. After the content and listings work, [[we are named in the answers for our main services.]]',
+				'name'   => 'Client name',
+				'role'   => 'Role, company',
+			),
+			array(
+				'sample' => true,
+				'title'  => 'Every lead has a source',
+				'body'   => 'The funnel tags each enquiry with the campaign that brought it in. [[For the first time I know which ads actually book calls]], not just which ones get clicks.',
+				'name'   => 'Client name',
+				'role'   => 'Role, company',
+			),
+			array(
+				'sample' => true,
+				'title'  => 'The brand finally looks like us',
+				'body'   => 'The guideline is short and clear. [[Our team makes posts that look on brand without asking anyone]], which was the whole point.',
+				'name'   => 'Client name',
+				'role'   => 'Role, company',
+			),
+			array(
+				'sample' => true,
+				'title'  => 'Reels that hold the first two seconds',
+				'body'   => 'The edits are tight and the captions are clean. [[People watch to the end now]], and the same cuts work as ads.',
+				'name'   => 'Client name',
+				'role'   => 'Role, company',
+			),
+		)
+	);
 }
