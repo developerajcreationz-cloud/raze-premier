@@ -1105,3 +1105,9 @@ button.rcard:focus-visible { outline: 3px solid var(--p-300); outline-offset: 3p
 .review-quote mark { background: #e3e8fb; color: var(--ink); padding: 1px 4px; border-radius: 6px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .clients-work { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 14px; }
 .clients-work li { padding: 4px 10px; border-radius: 999px; background: var(--p-50); color: var(--p-600); font-size: 12px; font-weight: 500; }
+
+/* Client cards in the wall of love. */
+.review-client-ic { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--p-50); color: var(--p-600); }
+.review-client-ic .icon { width: 17px; height: 17px; }
+.review-client .review-src { font-size: 13px; font-weight: 500; color: var(--p-600); }
+.review-client .clients-work { margin-top: 14px; padding-top: 0; }

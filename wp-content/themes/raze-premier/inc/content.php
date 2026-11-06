@@ -381,9 +381,8 @@ function raze_results_stats() {
  * platform: trustpilot, google, g2, clutch or direct.
  *
  * Only publish reviews that are real and that the reviewer agreed to share.
- * Cards with 'sample' => true are placeholders: they show a "Sample" label
- * and no platform badge. Replace them with real reviews copied from your
- * Trustpilot, Google or Clutch profile (set 'sample' to false), or delete them.
+ * Client names are kept private: 'name' holds the type of business and the
+ * country instead. Entries with 'sample' => true are never shown.
  *
  * @return array
  */
@@ -392,7 +391,13 @@ function raze_reviews() {
 		'raze_content_reviews',
 		array(
 			array(
-				'sample'   => false,
+				'platform' => 'direct',
+				'title'    => 'Our social media finally feels like us',
+				'body'     => 'Before working with Raze Premier, we were deciding what to post week by week. They gave us a clear content plan and turned our rough ideas into reels and carousels that sounded like us. [[We always knew what was going live and why.]] That made it much easier to stay consistent.',
+				'name'     => 'Independent realtor, Florida, USA',
+				'verified' => 'Client',
+			),
+			array(
 				'platform' => 'direct',
 				'title'    => 'A brand built around the people',
 				'body'     => 'Travel isn’t just about the places you go, [[it’s about the people you meet along the way.]]',
@@ -400,44 +405,25 @@ function raze_reviews() {
 				'verified' => 'Client',
 			),
 			array(
-				'sample'   => true,
-				'platform' => 'trustpilot',
-				'title'    => 'Finally one team for the site and the ads',
-				'body'     => 'Before, the designer, the developer and the ads person never spoke. Now [[the site, the campaigns and the tracking are set up together]], and I get one report that makes sense.',
-				'name'     => 'Client name',
-				'verified' => 'Verified review',
+				'platform' => 'direct',
+				'title'    => 'We could finally see where our ad budget was going',
+				'body'     => 'We’d run ads before, but it was hard to tell which creative was bringing in enquiries. Raze Premier helped us clean up the tracking and explained what they were testing in plain English. [[Each report showed what was working, what needed a change, and what they’d test next.]]',
+				'name'     => 'Industrial air treatment manufacturer, Italy',
+				'verified' => 'Client',
 			),
 			array(
-				'sample'   => true,
-				'platform' => 'google',
-				'title'    => 'We show up in AI answers now',
-				'body'     => 'We asked ChatGPT and Perplexity about our category and never came up. After the content and listings work, [[we are named in the answers for our main services.]]',
-				'name'     => 'Client name',
-				'verified' => 'Verified review',
+				'platform' => 'direct',
+				'title'    => 'A website we’re happy to send to clients',
+				'body'     => 'Our old site made it hard to explain everything we offered. Raze Premier helped us simplify the service pages, tighten the copy, and make the site easier to browse on a phone. [[Now we can send someone one link and they understand what we do.]]',
+				'name'     => 'Construction and renovation company, Netherlands',
+				'verified' => 'Client',
 			),
 			array(
-				'sample'   => true,
-				'platform' => 'clutch',
-				'title'    => 'Every lead has a source',
-				'body'     => 'The funnel tags each enquiry with the campaign that brought it in. [[For the first time I know which ads actually book calls]], not just which ones get clicks.',
-				'name'     => 'Client name',
-				'verified' => 'Verified review',
-			),
-			array(
-				'sample'   => true,
-				'platform' => 'trustpilot',
-				'title'    => 'The brand finally looks like us',
-				'body'     => 'The guideline is short and clear. [[Our team makes posts that look on brand without asking anyone]], which was the whole point.',
-				'name'     => 'Client name',
-				'verified' => 'Verified review',
-			),
-			array(
-				'sample'   => true,
-				'platform' => 'google',
-				'title'    => 'Reels that hold the first two seconds',
-				'body'     => 'The edits are tight and the captions are clean. [[People watch to the end now]], and the same cuts work as ads.',
-				'name'     => 'Client name',
-				'verified' => 'Verified review',
+				'platform' => 'direct',
+				'title'    => 'They found the story in our raw footage',
+				'body'     => 'We sent Raze Premier a mix of interviews and B-roll and weren’t sure how it would all come together. They picked out the strongest moments, kept the edits moving, and made the captions easy to follow. [[The finished videos still sounded like our team, just with a much clearer story.]]',
+				'name'     => 'Removals and courier company, UK',
+				'verified' => 'Client',
 			),
 		)
 	);
