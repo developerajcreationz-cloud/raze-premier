@@ -425,6 +425,13 @@ function raze_reviews() {
 				'name'     => 'Removals and courier company, UK',
 				'verified' => 'Client',
 			),
+			array(
+				'platform' => 'direct',
+				'title'    => 'Procurement teams trust us from the first click',
+				'body'     => 'We connect buyers with overseas suppliers, so our brand has to earn trust fast without feeling cold. Raze Premier built our identity, designed the web and app interface, and carried it into our social posts and packaging. [[Buyers now understand what we do and take us seriously from the first conversation.]]',
+				'name'     => 'B2B sourcing platform',
+				'verified' => 'Client',
+			),
 		)
 	);
 }
