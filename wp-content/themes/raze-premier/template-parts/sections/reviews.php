@@ -10,7 +10,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$raze_reviews = raze_reviews();
+// Only real reviews are shown. Placeholders marked 'sample' stay in
+// inc/content.php but never reach the page.
+$raze_reviews = array_values(
+	array_filter(
+		raze_reviews(),
+		function ( $r ) {
+			return empty( $r['sample'] );
+		}
+	)
+);
 if ( ! $raze_reviews ) {
 	return;
 }
@@ -30,6 +39,32 @@ $raze_platforms = array(
 		<p class="lede" data-reveal style="--d:.1s">Founders, marketers and teams who found out where they stood, then changed it.</p>
 	</div>
 
+	<?php if ( count( $raze_reviews ) < 3 ) : ?>
+		<div class="wrap reviews-featured">
+			<?php foreach ( $raze_reviews as $raze_rev ) : ?>
+				<?php $raze_platform = isset( $raze_rev['platform'] ) ? $raze_rev['platform'] : 'direct'; ?>
+				<figure class="review review-featured" data-reveal style="--d:.15s">
+					<p class="review-top">
+						<span class="stars stars-<?php echo esc_attr( $raze_platform ); ?>" role="img" aria-label="5 out of 5">
+							<?php for ( $raze_s = 0; $raze_s < 5; $raze_s++ ) : ?>
+								<i><?php echo raze_icon( 'star' ); // phpcs:ignore ?></i>
+							<?php endfor; ?>
+						</span>
+						<?php if ( ! empty( $raze_platforms[ $raze_platform ] ) ) : ?>
+							<span class="review-src"><?php echo esc_html( $raze_platforms[ $raze_platform ] ); ?></span>
+						<?php endif; ?>
+					</p>
+					<blockquote class="review-quote"><?php echo raze_highlight( $raze_rev['body'] ); // phpcs:ignore ?></blockquote>
+					<figcaption class="review-by">
+						<span><?php echo esc_html( $raze_rev['name'] ); ?></span>
+						<?php if ( ! empty( $raze_rev['verified'] ) ) : ?>
+							<span class="review-ok"><?php echo raze_icon( 'check' ); // phpcs:ignore ?><?php echo esc_html( $raze_rev['verified'] ); ?></span>
+						<?php endif; ?>
+					</figcaption>
+				</figure>
+			<?php endforeach; ?>
+		</div>
+	<?php else : ?>
 	<?php foreach ( $raze_rows as $raze_r => $raze_row ) : ?>
 		<div class="marquee<?php echo $raze_r ? ' is-reverse' : ''; ?>" <?php echo $raze_r ? 'aria-hidden="true"' : ''; ?>>
 			<div class="marquee-track">
@@ -70,4 +105,5 @@ $raze_platforms = array(
 			</div>
 		</div>
 	<?php endforeach; ?>
+	<?php endif; ?>
 </section>
