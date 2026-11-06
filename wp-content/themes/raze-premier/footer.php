@@ -15,14 +15,14 @@ $raze_book    = raze_opt( 'booking_url' );
 $raze_cta     = $raze_book ? $raze_book : $raze_home . '#contact';
 $raze_socials = raze_socials();
 ?>
-<footer class="site-footer">
+<footer class="site-footer" data-dark>
 	<div class="footer-glow" aria-hidden="true"></div>
 
 	<div class="wrap footer-top">
 		<div class="footer-brand" data-reveal>
 			<?php echo raze_wordmark( 'wordmark-ft' ); // phpcs:ignore ?>
 			<p>Brand, website, search, ads and the follow-up. One team, one set of numbers.</p>
-			<a class="btn btn-light" href="<?php echo esc_url( $raze_cta ); ?>" <?php echo $raze_book ? 'target="_blank" rel="noopener"' : ''; ?>>Start a project <?php echo raze_icon( 'arrow' ); // phpcs:ignore ?></a>
+			<a class="btn btn-grad" href="<?php echo esc_url( $raze_cta ); ?>" <?php echo $raze_book ? 'target="_blank" rel="noopener"' : ''; ?>>Start a project <?php echo raze_icon( 'arrow' ); // phpcs:ignore ?></a>
 		</div>
 
 		<div class="footer-cols">
@@ -39,6 +39,7 @@ $raze_socials = raze_socials();
 						<li><a href="<?php echo esc_url( $raze_home . '#process' ); ?>">Process</a></li>
 						<li><a href="<?php echo esc_url( $raze_home . '#results' ); ?>">Results</a></li>
 						<li><a href="<?php echo esc_url( $raze_home . '#reviews' ); ?>">Reviews</a></li>
+						<li><a href="<?php echo esc_url( $raze_home . '#faq' ); ?>">FAQ</a></li>
 						<li><a href="<?php echo esc_url( $raze_home . '#contact' ); ?>">Contact</a></li>
 					</ul>
 				<?php } ?>

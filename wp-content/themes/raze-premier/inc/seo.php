@@ -125,10 +125,9 @@ function raze_schema() {
 		),
 	);
 
-	// FAQPage markup only when the FAQ section is on the page (Google requires
-	// the questions to be visible). Add raze_section( 'faq' ) to front-page.php
-	// and hook this filter to return true to bring it back.
-	if ( apply_filters( 'raze_show_faq_schema', false ) ) {
+	// FAQPage markup matches the FAQ section on the homepage. If you take the
+	// section off the page, return false from this filter too.
+	if ( apply_filters( 'raze_show_faq_schema', true ) ) {
 		$graph['@graph'][] = array(
 			'@type'      => 'FAQPage',
 			'mainEntity' => array_map(

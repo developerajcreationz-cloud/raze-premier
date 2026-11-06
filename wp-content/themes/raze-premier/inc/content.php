@@ -172,7 +172,8 @@ function raze_process() {
 }
 
 /**
- * Frequently asked questions. Also printed as FAQPage schema.
+ * Frequently asked questions, shown in two columns and printed as FAQPage
+ * schema.
  *
  * @return array
  */
@@ -185,20 +186,36 @@ function raze_faqs() {
 				'a' => 'SEO gets your pages ranked in Google results. AEO (answer engine optimisation) gets your content chosen as the direct answer, in featured snippets, voice search and Google AI Overviews. GEO (generative engine optimisation) gets your business named and linked when people ask ChatGPT, Perplexity or Gemini. They share the same base: a fast, well-structured site with clear facts about what you do, plus mentions of you on other trusted sites.',
 			),
 			array(
+				'q' => 'Can’t I just ask ChatGPT about my business myself?',
+				'a' => 'You can, and it is worth doing. One answer from one assistant is a snapshot, though. Answers change by question, by assistant and by day. We check the questions your buyers actually ask across ChatGPT, Gemini, Perplexity, Claude and Google AI Overviews, find why you are missing, and fix the pages, listings and mentions behind it.',
+			),
+			array(
 				'q' => 'Do I need all six services?',
 				'a' => 'No. Plenty of clients start with one, usually a website or ads. We suggest adding others only when the numbers show where the gap is.',
 			),
 			array(
-				'q' => 'How long before SEO shows results?',
+				'q' => 'How long before I see results?',
 				'a' => 'Technical fixes and local listings can move within weeks. Content and authority usually take three to six months to show in rankings and AI answers. Ads are the faster lever while that builds.',
+			),
+			array(
+				'q' => 'What happens on the first call?',
+				'a' => 'We ask what you sell, who buys it and what has or has not worked so far. Before the call we look at your site, search presence and ad accounts, so you leave with what we would do first, whether or not you work with us.',
 			),
 			array(
 				'q' => 'How do you price projects?',
 				'a' => 'Branding and websites are quoted as fixed projects. SEO, ads management and funnels are monthly. You get the full quote in writing after the first call, before any work starts.',
 			),
 			array(
+				'q' => 'Can you work with my existing website and ad accounts?',
+				'a' => 'Yes. We audit what you have first and keep what works. We only suggest a rebuild when fixing the current site would cost more than replacing it.',
+			),
+			array(
 				'q' => 'Will I own the website, ad accounts and content?',
 				'a' => 'Yes. Domains, hosting, ad accounts, analytics and design files are set up in your name, and we work inside them with access you can remove at any time.',
+			),
+			array(
+				'q' => 'How do you report results?',
+				'a' => 'Once a month you get a short report: leads, cost per lead, where each lead came from, and what we plan to change next month. Then a call to go through it.',
 			),
 			array(
 				'q' => 'Do you work with businesses in other countries?',
@@ -355,13 +372,16 @@ function raze_results_stats() {
 }
 
 /**
- * Wall of love.
+ * Wall of love, laid out like a review site card: platform stars and name,
+ * a headline, the review with [[highlighted]] phrases, the reviewer and a
+ * verification note.
  *
- * The cards marked 'sample' are placeholders that show the layout. They are
- * labelled "Sample" on the page. Replace each one with a real review (and set
- * 'sample' to false) or delete it. Never publish a made-up review as real.
+ * platform: trustpilot, google, g2, clutch or direct.
  *
- * Wrap words in [[double brackets]] to highlight them.
+ * Only publish reviews that are real and that the reviewer agreed to share.
+ * Cards with 'sample' => true are placeholders: they show a "Sample" label
+ * and no platform badge. Replace them with real reviews copied from your
+ * Trustpilot, Google or Clutch profile (set 'sample' to false), or delete them.
  *
  * @return array
  */
@@ -370,48 +390,83 @@ function raze_reviews() {
 		'raze_content_reviews',
 		array(
 			array(
-				'sample' => false,
-				'source' => 'Framily Adventures',
-				'title'  => 'A brand built around the people',
-				'body'   => 'Travel isn’t just about the places you go, [[it’s about the people you meet along the way.]]',
-				'name'   => 'Derachio Jackson',
-				'role'   => 'Creative Director, Framily Adventures',
+				'sample'   => false,
+				'platform' => 'direct',
+				'title'    => 'A brand built around the people',
+				'body'     => 'Travel isn’t just about the places you go, [[it’s about the people you meet along the way.]]',
+				'name'     => 'Derachio Jackson, Framily Adventures',
+				'verified' => 'Client',
 			),
 			array(
-				'sample' => true,
-				'title'  => 'Finally one team for the site and the ads',
-				'body'   => 'Before, the designer, the developer and the ads person never spoke. Now [[the site, the campaigns and the tracking are set up together]], and I get one report that makes sense.',
-				'name'   => 'Client name',
-				'role'   => 'Role, company',
+				'sample'   => true,
+				'platform' => 'trustpilot',
+				'title'    => 'Finally one team for the site and the ads',
+				'body'     => 'Before, the designer, the developer and the ads person never spoke. Now [[the site, the campaigns and the tracking are set up together]], and I get one report that makes sense.',
+				'name'     => 'Client name',
+				'verified' => 'Verified review',
 			),
 			array(
-				'sample' => true,
-				'title'  => 'We show up in AI answers now',
-				'body'   => 'We asked ChatGPT and Perplexity about our category and never came up. After the content and listings work, [[we are named in the answers for our main services.]]',
-				'name'   => 'Client name',
-				'role'   => 'Role, company',
+				'sample'   => true,
+				'platform' => 'google',
+				'title'    => 'We show up in AI answers now',
+				'body'     => 'We asked ChatGPT and Perplexity about our category and never came up. After the content and listings work, [[we are named in the answers for our main services.]]',
+				'name'     => 'Client name',
+				'verified' => 'Verified review',
 			),
 			array(
-				'sample' => true,
-				'title'  => 'Every lead has a source',
-				'body'   => 'The funnel tags each enquiry with the campaign that brought it in. [[For the first time I know which ads actually book calls]], not just which ones get clicks.',
-				'name'   => 'Client name',
-				'role'   => 'Role, company',
+				'sample'   => true,
+				'platform' => 'clutch',
+				'title'    => 'Every lead has a source',
+				'body'     => 'The funnel tags each enquiry with the campaign that brought it in. [[For the first time I know which ads actually book calls]], not just which ones get clicks.',
+				'name'     => 'Client name',
+				'verified' => 'Verified review',
 			),
 			array(
-				'sample' => true,
-				'title'  => 'The brand finally looks like us',
-				'body'   => 'The guideline is short and clear. [[Our team makes posts that look on brand without asking anyone]], which was the whole point.',
-				'name'   => 'Client name',
-				'role'   => 'Role, company',
+				'sample'   => true,
+				'platform' => 'trustpilot',
+				'title'    => 'The brand finally looks like us',
+				'body'     => 'The guideline is short and clear. [[Our team makes posts that look on brand without asking anyone]], which was the whole point.',
+				'name'     => 'Client name',
+				'verified' => 'Verified review',
 			),
 			array(
-				'sample' => true,
-				'title'  => 'Reels that hold the first two seconds',
-				'body'   => 'The edits are tight and the captions are clean. [[People watch to the end now]], and the same cuts work as ads.',
-				'name'   => 'Client name',
-				'role'   => 'Role, company',
+				'sample'   => true,
+				'platform' => 'google',
+				'title'    => 'Reels that hold the first two seconds',
+				'body'     => 'The edits are tight and the captions are clean. [[People watch to the end now]], and the same cuts work as ads.',
+				'name'     => 'Client name',
+				'verified' => 'Verified review',
 			),
 		)
+	);
+}
+
+/**
+ * The "let AI work for you" band.
+ *
+ * @return array
+ */
+function raze_agents() {
+	return apply_filters(
+		'raze_content_agents',
+		array(
+			'marks' => array( 'gemini', 'claude', 'chatgpt' ),
+			'title' => 'Let AI assistants recommend your brand',
+			'body'  => 'We make your site, listings and content easy for ChatGPT, Gemini, Claude and Perplexity to read and trust, so they name you when buyers ask.',
+			'cta'   => 'Get your AI visibility check',
+		)
+	);
+}
+
+/**
+ * The statement between the hero and the services. It lights up word by
+ * word as the visitor scrolls. Words wrapped in [[ ]] are set in purple.
+ *
+ * @return string
+ */
+function raze_statement() {
+	return apply_filters(
+		'raze_content_statement',
+		'Search is no longer one results page. People ask Google, Maps and AI assistants, and scroll feeds. We make sure that wherever they look, [[they find you]], and that every click is [[followed up.]]'
 	);
 }

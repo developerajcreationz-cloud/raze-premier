@@ -13,7 +13,7 @@ $raze_phone    = raze_opt( 'phone' );
 $raze_whatsapp = raze_opt( 'whatsapp' );
 $raze_book     = raze_opt( 'booking_url' );
 ?>
-<section class="contact" id="contact">
+<section class="contact" id="contact" data-dark>
 	<div class="wrap contact-grid">
 		<div class="contact-copy">
 			<h2 class="contact-title" data-reveal>Let&rsquo;s bring your <span class="grad-text">ideas</span> to life</h2>

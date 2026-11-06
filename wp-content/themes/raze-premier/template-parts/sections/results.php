@@ -1,7 +1,7 @@
 <?php
 /**
- * Results: headline, a row of figures, a rising line, the three projects
- * as gradient cards, and a quote that lights up word by word on scroll.
+ * Results: headline, a row of figures, a line that draws itself as the
+ * visitor scrolls, and the three projects as gradient cards.
  *
  * @package raze
  */
@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 
 $raze_work = raze_work();
 ?>
-<section class="results" id="results">
+<section class="results" id="results" data-results>
 	<svg class="results-curve" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true" data-curve>
 		<defs>
 			<linearGradient id="rcg" x1="0" y1="1" x2="1" y2="0">
@@ -26,7 +26,7 @@ $raze_work = raze_work();
 		<h2 class="h-xl" data-reveal>Visibility that <br><span class="fade-word">turns into revenue</span> <span class="results-emoji" aria-hidden="true"><?php echo raze_icon( 'chart' ); // phpcs:ignore ?></span></h2>
 		<ul class="stats">
 			<?php foreach ( raze_results_stats() as $raze_i => $raze_stat ) : ?>
-				<li data-reveal style="--d:<?php echo esc_attr( 0.08 * $raze_i ); ?>s">
+				<li class="stat" data-reveal style="--d:<?php echo esc_attr( 0.1 * $raze_i ); ?>s">
 					<b data-count="<?php echo esc_attr( $raze_stat['value'] ); ?>"><?php echo esc_html( $raze_stat['value'] ); ?></b>
 					<span><?php echo esc_html( $raze_stat['label'] ); ?></span>
 				</li>
@@ -36,7 +36,7 @@ $raze_work = raze_work();
 
 	<div class="wrap result-cards">
 		<?php foreach ( $raze_work as $raze_i => $raze_p ) : ?>
-			<a class="rcard rcard-<?php echo (int) $raze_i; ?>" href="#work" data-reveal style="--d:<?php echo esc_attr( 0.08 * $raze_i ); ?>s" data-tilt>
+			<a class="rcard rcard-<?php echo (int) $raze_i; ?>" href="#work" data-rise style="--i:<?php echo (int) $raze_i; ?>" data-tilt>
 				<span class="rcard-kind"><?php echo esc_html( $raze_p['kind'] ); ?></span>
 				<span class="rcard-big"><?php echo esc_html( count( $raze_p['delivered'] ) ); ?> <small>deliverables, one system</small></span>
 				<span class="rcard-foot">
@@ -47,9 +47,4 @@ $raze_work = raze_work();
 		<?php endforeach; ?>
 	</div>
 
-	<figure class="wrap results-quote" data-zoom>
-		<blockquote data-words>
-			<p>Search is no longer one results page. People ask Google, Maps and AI assistants, and scroll feeds. We make sure that wherever they look, they find you, and that every click is followed up.</p>
-		</blockquote>
-	</figure>
 </section>

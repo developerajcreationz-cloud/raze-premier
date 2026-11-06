@@ -19,6 +19,7 @@ $raze_left  = array(
 $raze_right = array(
 	'#results' => 'Results',
 	'#reviews' => 'Reviews',
+	'#faq'     => 'FAQ',
 	'#contact' => 'Contact',
 );
 $raze_book  = raze_opt( 'booking_url' );
@@ -47,7 +48,7 @@ $raze_cta   = $raze_book ? $raze_book : $raze_home . '#contact';
 			<?php echo raze_wordmark( 'wordmark-sm' ); // phpcs:ignore ?>
 		<?php endif; ?>
 	</a>
-	<a class="btn btn-ghost topbar-cta" href="<?php echo esc_url( $raze_cta ); ?>" <?php echo $raze_book ? 'target="_blank" rel="noopener"' : ''; ?>>Start a project</a>
+	<a class="btn btn-grad topbar-cta" href="<?php echo esc_url( $raze_cta ); ?>" <?php echo $raze_book ? 'target="_blank" rel="noopener"' : ''; ?>>Start a project</a>
 </header>
 
 <nav class="dock" id="site-nav" aria-label="<?php esc_attr_e( 'Main', 'raze' ); ?>" data-dock<?php echo is_front_page() ? ' data-scrub' : ''; ?>>
@@ -75,6 +76,6 @@ $raze_cta   = $raze_book ? $raze_book : $raze_home . '#contact';
 				<li><a href="<?php echo esc_url( $raze_home . $raze_href ); ?>"><?php echo esc_html( $raze_label ); ?></a></li>
 			<?php endforeach; ?>
 		</ul>
-		<a class="btn btn-light btn-block" href="<?php echo esc_url( $raze_cta ); ?>">Start a project <?php echo raze_icon( 'arrow' ); // phpcs:ignore ?></a>
+		<a class="btn btn-grad btn-block" href="<?php echo esc_url( $raze_cta ); ?>">Start a project <?php echo raze_icon( 'arrow' ); // phpcs:ignore ?></a>
 	</div>
 </nav>
