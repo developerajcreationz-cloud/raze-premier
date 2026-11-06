@@ -2,8 +2,9 @@
 /**
  * Site header: preloader (front page) and the nav bar.
  *
- * The nav is one white rounded bar fixed at the top: logo on the left,
- * links in the middle, the call to action on the right. On a lander the
+ * The nav is one dark glass pill fixed at the top: logo on the left, the
+ * links split around the "r" mark in the middle, the call to action on the
+ * right. It narrows and slims down once the visitor scrolls. On a lander the
  * links stay on that page and the logo goes to the top of the page, so the
  * visitor is never sent back to the homepage.
  *
@@ -67,9 +68,16 @@ if ( $raze_lander ) {
 			<?php endif; ?>
 		</a>
 
+		<?php $raze_halves = array_chunk( $raze_links, (int) ceil( count( $raze_links ) / 2 ), true ); ?>
 		<nav class="nav-links" aria-label="<?php esc_attr_e( 'Main', 'raze' ); ?>">
 			<ul>
-				<?php foreach ( $raze_links as $raze_href => $raze_label ) : ?>
+				<?php foreach ( $raze_halves[0] as $raze_href => $raze_label ) : ?>
+					<li><a href="<?php echo esc_url( $raze_href ); ?>"><?php echo esc_html( $raze_label ); ?></a></li>
+				<?php endforeach; ?>
+			</ul>
+			<a class="nav-mark" href="#top" aria-label="Back to the top"><span aria-hidden="true">r</span></a>
+			<ul>
+				<?php foreach ( isset( $raze_halves[1] ) ? $raze_halves[1] : array() as $raze_href => $raze_label ) : ?>
 					<li><a href="<?php echo esc_url( $raze_href ); ?>"><?php echo esc_html( $raze_label ); ?></a></li>
 				<?php endforeach; ?>
 			</ul>

@@ -118,7 +118,7 @@
 		});
 		scrollers.push(function (y) { nav.classList.toggle('is-scrolled', y > 20); });
 
-		var navLinks = $$('.nav-links a', nav);
+		var navLinks = $$('.nav-links li a', nav);
 		var byId = {};
 		navLinks.forEach(function (a) {
 			var id = (a.getAttribute('href') || '').split('#')[1];
