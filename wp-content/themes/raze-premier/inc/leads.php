@@ -41,7 +41,12 @@ add_action( 'init', 'raze_register_leads' );
  * Handle a form post.
  */
 function raze_handle_contact() {
-	$back = home_url( '/' );
+	$back   = home_url( '/' );
+	$lander = isset( $_POST['raze_lander'] ) ? sanitize_key( wp_unslash( $_POST['raze_lander'] ) ) : '';
+	$lander = ( $lander && raze_lander( $lander ) ) ? $lander : '';
+	if ( $lander ) {
+		$back = raze_lander_url( $lander );
+	}
 
 	if ( ! isset( $_POST['raze_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['raze_nonce'] ) ), 'raze_contact' ) ) {
 		wp_safe_redirect( add_query_arg( 'enquiry', 'expired', $back ) . '#contact' );
@@ -66,10 +71,11 @@ function raze_handle_contact() {
 	$company = isset( $_POST['company'] ) ? sanitize_text_field( wp_unslash( $_POST['company'] ) ) : '';
 	$message = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
 	$posted  = isset( $_POST['services'] ) ? (array) wp_unslash( $_POST['services'] ) : array();
-	$allowed = raze_service_options();
+	$allowed = $lander ? raze_lander( $lander )['form']['options'] : raze_service_options();
 	$services = array_values( array_intersect( array_map( 'sanitize_text_field', $posted ), $allowed ) );
 
-	if ( '' === $name || ! is_email( $email ) || '' === $message ) {
+	// Lander forms ask for less: the message is optional there.
+	if ( '' === $name || ! is_email( $email ) || ( '' === $message && ! $lander ) ) {
 		wp_safe_redirect( add_query_arg( 'enquiry', 'invalid', $back ) . '#contact' );
 		exit;
 	}
@@ -78,7 +84,8 @@ function raze_handle_contact() {
 	$body .= "Email: {$email}\n";
 	$body .= $company ? "Company or website: {$company}\n" : '';
 	$body .= $services ? 'Interested in: ' . implode( ', ', $services ) . "\n" : '';
-	$body .= "\n{$message}\n";
+	$body .= $lander ? 'Page: ' . raze_lander( $lander )['name'] . "\n" : '';
+	$body .= $message ? "\n{$message}\n" : '';
 
 	$lead_id = wp_insert_post(
 		array(
@@ -92,6 +99,7 @@ function raze_handle_contact() {
 		update_post_meta( $lead_id, 'email', $email );
 		update_post_meta( $lead_id, 'services', implode( ', ', $services ) );
 		update_post_meta( $lead_id, 'source', isset( $_POST['raze_src'] ) ? sanitize_text_field( wp_unslash( $_POST['raze_src'] ) ) : '' );
+		update_post_meta( $lead_id, 'page', $lander ? raze_lander( $lander )['name'] : 'Homepage' );
 	}
 
 	$to = raze_opt( 'lead_email', get_option( 'admin_email' ) );

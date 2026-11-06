@@ -63,6 +63,7 @@ function raze_service_groups() {
 					array(
 						'name'  => 'SEO, AEO and GEO',
 						'icon'  => 'search',
+						'lander' => 'seo',
 						'line'  => 'Rank in Google, get named by AI assistants.',
 						'desc'  => 'Technical fixes, pages and content that rank in Google, get picked as the direct answer, and get named by AI assistants.',
 						'tags'  => array( 'Technical SEO', 'Local SEO', 'Answer engines', 'AI search' ),
@@ -86,6 +87,7 @@ function raze_service_groups() {
 					array(
 						'name'  => 'Lead funnels',
 						'icon'  => 'funnel',
+						'lander' => 'ghl',
 						'line'  => 'Every click followed up, every lead tagged.',
 						'desc'  => 'Landing pages, forms, booking and automatic follow-up by email, SMS or WhatsApp, with every lead tagged by the campaign that brought it in.',
 						'tags'  => array( 'Landing pages', 'Booking', 'Follow-up automation', 'CRM pipeline' ),

@@ -101,66 +101,40 @@
 		onVisible(el, function (t) { t.classList.add('is-in'); });
 	});
 
-	/* Dock: starts at the bottom, moves to the top on scroll ----------- */
+	/* Nav: fixed bar, menu on small screens, current section ---------- */
 
-	var dock = $('[data-dock]');
-	if (dock) {
-		// On the homepage the dock starts at the bottom of the screen and
-		// follows the scroll up, reaching the top just before the services.
-		var scrubEl = dock.hasAttribute('data-scrub') ? document.getElementById('services') : null;
-		var placeDock = function (y) {
-			if (!scrubEl) { dock.style.setProperty('--dy', '0px'); return; }
-			var top = parseFloat(getComputedStyle(dock).top) || 16;
-			var travel = Math.max(0, vh() - dock.offsetHeight - top - 28);
-			var end = Math.max(300, scrubEl.offsetTop - vh() * 0.45);
-			var p = reduce ? (y > 40 ? 1 : 0) : clamp(y / end, 0, 1);
-			var eased = p * p * (3 - 2 * p);
-			dock.style.setProperty('--dy', ((1 - eased) * travel).toFixed(1) + 'px');
-			dock.classList.toggle('is-down', eased < 0.5);
-		};
-		scrollers.push(placeDock);
-		placeDock(window.pageYOffset);
-		var toggle = $('[data-dock-toggle]', dock);
-		var closeDock = function () { dock.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); };
-		toggle.addEventListener('click', function () {
-			var open = !dock.classList.contains('is-open');
-			dock.classList.toggle('is-open', open);
-			toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+	var nav = $('[data-nav]');
+	if (nav) {
+		var navToggle = $('[data-nav-toggle]', nav);
+		var closeNav = function () { nav.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); };
+		navToggle.addEventListener('click', function () {
+			var open = !nav.classList.contains('is-open');
+			nav.classList.toggle('is-open', open);
+			navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
 		});
-		document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeDock(); } });
+		document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeNav(); } });
 		document.addEventListener('click', function (e) {
-			if (!dock.contains(e.target) || e.target.closest('.dock-sheet a')) { closeDock(); }
+			if (!nav.contains(e.target) || e.target.closest('.nav-sheet a')) { closeNav(); }
 		});
+		scrollers.push(function (y) { nav.classList.toggle('is-scrolled', y > 20); });
 
-		var links = $$('.dock-list a');
+		var navLinks = $$('.nav-links a', nav);
 		var byId = {};
-		links.forEach(function (a) {
+		navLinks.forEach(function (a) {
 			var id = (a.getAttribute('href') || '').split('#')[1];
 			if (id && document.getElementById(id)) { (byId[id] = byId[id] || []).push(a); }
 		});
-		if ('IntersectionObserver' in window) {
+		if ('IntersectionObserver' in window && Object.keys(byId).length) {
 			var spy = new IntersectionObserver(function (entries) {
 				entries.forEach(function (e) {
 					if (e.isIntersecting && byId[e.target.id]) {
-						links.forEach(function (l) { l.classList.remove('is-current'); });
+						navLinks.forEach(function (l) { l.classList.remove('is-current'); });
 						byId[e.target.id].forEach(function (l) { l.classList.add('is-current'); });
 					}
 				});
 			}, { rootMargin: '-45% 0px -50% 0px' });
 			Object.keys(byId).forEach(function (id) { spy.observe(document.getElementById(id)); });
 		}
-	}
-
-	/* Top bar: switch to white over dark sections -------------------- */
-
-	var topbar = $('[data-topbar]');
-	var darks = $$('[data-dark]');
-	if (topbar && darks.length) {
-		scrollers.push(function () {
-			var y = topbar.offsetHeight / 2;
-			var dark = darks.some(function (d) { var r = d.getBoundingClientRect(); return r.top <= y && r.bottom >= y; });
-			topbar.classList.toggle('is-dark', dark);
-		});
 	}
 
 	/* Hero: rotating surface inside the headline ---------------------- */
@@ -203,13 +177,21 @@
 		});
 	}
 
-	/* Services: the deck fans out when it comes into view ------------ */
+	/* Services: the deck fans out as the section scrolls up ---------- */
 
 	var fan = $('[data-fan]');
-	if (fan) {
-		if (reduce) { fan.classList.add('is-open'); } else {
-			onVisible(fan, function (f) { f.classList.add('is-open'); }, { rootMargin: '0px 0px -18% 0px', threshold: 0.2 });
-		}
+	if (fan && !reduce) {
+		var setFan = function () {
+			var r = fan.getBoundingClientRect();
+			// 0 when the deck's top is near the bottom of the screen, 1 once it
+			// has risen to about a third of the way down.
+			var p = clamp((vh() * 0.92 - r.top) / (vh() * 0.58), 0, 1);
+			var eased = 1 - Math.pow(1 - p, 3);
+			fan.style.setProperty('--p', eased.toFixed(4));
+			fan.style.setProperty('--fp', clamp(p * 1.4, 0, 1).toFixed(3));
+		};
+		scrollers.push(setFan);
+		setFan();
 	}
 
 	/* Work: big title slides and fills in ----------------------------- */
@@ -330,7 +312,12 @@
 		var parts = [];
 		Array.prototype.forEach.call(p.childNodes, function (node) {
 			var accent = node.nodeName === 'MARK';
-			node.textContent.split(/\s+/).forEach(function (w) { if (w) { parts.push({ w: w, accent: accent }); } });
+			node.textContent.split(/\s+/).forEach(function (w) {
+				if (!w) { return; }
+				// Punctuation right after a highlighted phrase stays attached to it.
+				if (/^[,.;:!?]+$/.test(w) && parts.length) { parts[parts.length - 1].w += w; return; }
+				parts.push({ w: w, accent: accent });
+			});
 		});
 		p.innerHTML = '';
 		parts.forEach(function (part, i) {
@@ -384,6 +371,74 @@
 				card.style.transform = 'perspective(900px) rotateX(' + (-y * 6).toFixed(2) + 'deg) rotateY(' + (x * 8).toFixed(2) + 'deg) translateY(-4px)';
 			});
 			card.addEventListener('mouseleave', function () { card.style.transform = ''; });
+		});
+	}
+
+	/* Landers: tabs, screenshot views, full-size viewer --------------- */
+
+	$$('[data-tabs]').forEach(function (box) {
+		var tabs = $$('[role="tab"]', box);
+		var select = function (tab, focus) {
+			tabs.forEach(function (t) {
+				var on = t === tab;
+				t.setAttribute('aria-selected', on ? 'true' : 'false');
+				t.tabIndex = on ? 0 : -1;
+				var panel = document.getElementById(t.getAttribute('aria-controls'));
+				if (panel) { panel.hidden = !on; }
+			});
+			if (focus) { tab.focus(); }
+		};
+		tabs.forEach(function (t, i) {
+			t.addEventListener('click', function () { select(t); });
+			t.addEventListener('keydown', function (e) {
+				var n = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+				if (n) { e.preventDefault(); select(tabs[(i + n + tabs.length) % tabs.length], true); }
+			});
+		});
+	});
+
+	$$('[data-views]').forEach(function (box) {
+		var buttons = $$('[data-view]', box);
+		var imgs = $$('.lframe-img', box);
+		buttons.forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				var k = +btn.getAttribute('data-view');
+				buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+				imgs.forEach(function (im, j) { im.classList.toggle('is-on', j === k); });
+			});
+		});
+	});
+
+	var dialog = $('[data-lightbox-dialog]');
+	if (dialog && typeof dialog.showModal === 'function') {
+		var big = $('img', dialog);
+		$$('[data-lightbox]').forEach(function (link) {
+			link.addEventListener('click', function (e) {
+				e.preventDefault();
+				var img = $('img', link);
+				big.src = link.getAttribute('href');
+				big.alt = img ? img.alt : '';
+				dialog.showModal();
+			});
+		});
+		$('[data-lightbox-close]', dialog).addEventListener('click', function () { dialog.close(); });
+		dialog.addEventListener('click', function (e) { if (e.target === dialog) { dialog.close(); } });
+	}
+
+	$$('.lsteps, [data-flowline]').forEach(function (el) {
+		onVisible(el, function (t) { t.classList.add('is-in'); }, { rootMargin: '0px 0px -20% 0px', threshold: 0.2 });
+	});
+
+	var heroForm = $('[data-hero-form]');
+	if (heroForm) {
+		heroForm.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var email = $('input[type="email"]', heroForm).value;
+			var target = $('#f-email');
+			if (target) { target.value = email; }
+			var contact = document.getElementById('contact');
+			if (contact) { contact.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
+			setTimeout(function () { var name = $('#f-name'); if (name) { name.focus({ preventScroll: true }); } }, reduce ? 0 : 700);
 		});
 	}
 

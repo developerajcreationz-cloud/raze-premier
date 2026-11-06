@@ -25,6 +25,9 @@ $raze_n     = count( $raze_cards );
 						<h3 class="vcard-title"><?php echo esc_html( $raze_card['name'] ); ?></h3>
 						<p class="vcard-line"><?php echo esc_html( $raze_card['line'] ); ?></p>
 						<p class="vcard-desc"><?php echo esc_html( $raze_card['desc'] ); ?></p>
+						<?php if ( ! empty( $raze_card['lander'] ) ) : ?>
+							<a class="vcard-link" href="<?php echo esc_url( raze_lander_url( $raze_card['lander'] ) ); ?>">Learn more <?php echo raze_icon( 'arrow' ); // phpcs:ignore ?><span class="sr-only"> about <?php echo esc_html( $raze_card['name'] ); ?></span></a>
+						<?php endif; ?>
 						<ul class="vcard-tags">
 							<?php foreach ( array_slice( $raze_card['tags'], 0, 3 ) as $raze_tag ) : ?>
 								<li><?php echo esc_html( $raze_tag ); ?></li>

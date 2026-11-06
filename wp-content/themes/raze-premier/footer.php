@@ -1,7 +1,7 @@
 <?php
 /**
- * Site footer: brand line and call to action, link columns, contact, the
- * oversized wordmark on the purple glow, and the legal row.
+ * Site footer: brand line and call to action, link columns, contact and the
+ * legal row. On a lander the footer is slim and links only within the page.
  *
  * @package raze
  */
@@ -14,6 +14,33 @@ $raze_phone   = raze_opt( 'phone' );
 $raze_book    = raze_opt( 'booking_url' );
 $raze_cta     = $raze_book ? $raze_book : $raze_home . '#contact';
 $raze_socials = raze_socials();
+$raze_lander  = raze_current_lander();
+if ( $raze_lander ) {
+	$raze_l = raze_lander( $raze_lander );
+	?>
+	<footer class="site-footer lfooter" data-dark>
+		<div class="footer-glow" aria-hidden="true"></div>
+		<div class="wrap lfooter-in">
+			<a class="lfooter-brand" href="#top" aria-label="Back to the top"><?php echo raze_wordmark( 'wordmark-ft' ); // phpcs:ignore ?></a>
+			<p class="lfooter-tag"><?php echo esc_html( $raze_l['footer'] ); ?></p>
+			<a class="btn btn-grad" href="#contact"><?php echo esc_html( $raze_l['cta'] ); ?> <?php echo raze_icon( 'arrow' ); // phpcs:ignore ?></a>
+		</div>
+		<div class="wrap footer-base">
+			<span>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> Raze Premier. All rights reserved.</span>
+			<span class="footer-base-links">
+				<?php if ( $raze_email ) : ?>
+					<a href="mailto:<?php echo esc_attr( antispambot( $raze_email ) ); ?>"><?php echo esc_html( antispambot( $raze_email ) ); ?></a>
+				<?php endif; ?>
+				<a href="#top" data-to-top>Back to top <?php echo raze_icon( 'arrow' ); // phpcs:ignore ?></a>
+			</span>
+		</div>
+	</footer>
+	<?php wp_footer(); ?>
+	</body>
+	</html>
+	<?php
+	return;
+}
 ?>
 <footer class="site-footer" data-dark>
 	<div class="footer-glow" aria-hidden="true"></div>
@@ -49,7 +76,7 @@ $raze_socials = raze_socials();
 				<p class="footer-h">Services</p>
 				<ul>
 					<?php foreach ( raze_service_cards() as $raze_item ) : ?>
-						<li><a href="<?php echo esc_url( $raze_home . '#services' ); ?>"><?php echo esc_html( $raze_item['name'] ); ?></a></li>
+						<li><a href="<?php echo esc_url( ! empty( $raze_item['lander'] ) ? raze_lander_url( $raze_item['lander'] ) : $raze_home . '#services' ); ?>"><?php echo esc_html( $raze_item['name'] ); ?></a></li>
 					<?php endforeach; ?>
 				</ul>
 			</div>
@@ -70,10 +97,6 @@ $raze_socials = raze_socials();
 				</ul>
 			</div>
 		</div>
-	</div>
-
-	<div class="footer-word" aria-hidden="true" data-footword>
-		<span class="fw-raze" data-text="raze">raze</span>
 	</div>
 
 	<div class="wrap footer-base">

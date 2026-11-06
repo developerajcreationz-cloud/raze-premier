@@ -23,7 +23,7 @@ $raze_a = raze_agents();
 				<?php endforeach; ?>
 			</span>
 			<span class="agents-line"><i></i></span>
-			<span class="agents-us"><span>r</span></span>
+			<span class="agents-us"><?php echo raze_wordmark(); // phpcs:ignore ?></span>
 		</div>
 
 		<h2 class="agents-title" id="agents-title" data-reveal style="--d:.08s"><?php echo esc_html( $raze_a['title'] ); ?></h2>

@@ -17,6 +17,7 @@ require RAZE_DIR . '/inc/marks.php';
 require RAZE_DIR . '/inc/customizer.php';
 require RAZE_DIR . '/inc/leads.php';
 require RAZE_DIR . '/inc/seo.php';
+require RAZE_DIR . '/inc/landers.php';
 
 /**
  * Theme supports and menus.
