@@ -106,4 +106,21 @@ $raze_platforms = array(
 		</div>
 	<?php endforeach; ?>
 	<?php endif; ?>
+
+	<?php $raze_clients = raze_clients(); ?>
+	<?php if ( $raze_clients ) : ?>
+		<div class="wrap clients">
+			<p class="clients-h" data-reveal>Who we’ve worked with <span>Names kept private to protect our clients’ privacy.</span></p>
+			<ul class="clients-list">
+				<?php foreach ( $raze_clients as $raze_i => $raze_c ) : ?>
+					<li data-reveal style="--d:<?php echo esc_attr( 0.06 * $raze_i ); ?>s">
+						<span class="clients-ic"><?php echo raze_icon( $raze_c['icon'] ); // phpcs:ignore ?></span>
+						<b><?php echo esc_html( $raze_c['industry'] ); ?></b>
+						<span class="clients-place"><?php echo esc_html( $raze_c['place'] ); ?></span>
+						<small><?php echo esc_html( ! empty( $raze_c['work'] ) ? $raze_c['work'] : $raze_c['note'] ); ?></small>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+	<?php endif; ?>
 </section>
