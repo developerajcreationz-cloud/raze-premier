@@ -3,7 +3,7 @@
  * Preloader, no text. A small power core lights up, energy runs up two thin
  * lines, two angled eye slits stutter on, and their glow builds with the
  * page load. At full power they flare and the screen opens like eyelids to
- * reveal the site. Runs on every load of the homepage, skipped for people
+ * reveal the site. Runs on every load of the homepage and the landers, skipped for people
  * who prefer reduced motion, never shown without JavaScript.
  *
  * @package raze

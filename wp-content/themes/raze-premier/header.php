@@ -1,6 +1,6 @@
 <?php
 /**
- * Site header: preloader (front page) and the nav bar.
+ * Site header: preloader (homepage and landers) and the nav bar.
  *
  * The nav is one dark glass pill fixed at the top: logo on the left, the
  * links split around the "r" mark in the middle, the call to action on the
@@ -54,7 +54,7 @@ if ( $raze_lander ) {
 <?php wp_body_open(); ?>
 <a class="skip-link" href="#main"><?php esc_html_e( 'Skip to content', 'raze' ); ?></a>
 
-<?php if ( is_front_page() ) : ?>
+<?php if ( is_front_page() || $raze_lander ) : ?>
 	<?php get_template_part( 'template-parts/preloader' ); ?>
 <?php endif; ?>
 
