@@ -69,7 +69,7 @@ add_action( 'wp_head', 'raze_js_flag', 0 );
  * Preload the two fonts used above the fold.
  */
 function raze_preload_fonts() {
-	foreach ( array( 'archivo', 'hanken-grotesk' ) as $font ) {
+	foreach ( array( 'geist', 'archivo' ) as $font ) {
 		printf(
 			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
 			esc_url( RAZE_URI . '/assets/fonts/' . $font . '.woff2' )

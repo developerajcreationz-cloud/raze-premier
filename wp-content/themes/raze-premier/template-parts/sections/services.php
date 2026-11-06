@@ -1,32 +1,17 @@
 <?php
 /**
- * Services, set out like a values section: a statement that builds word by
- * word, a motto, then the service cards stacked in a deck that fans out as
- * the visitor scrolls.
+ * Services, set out like a values section: the service cards stacked in a
+ * deck that fans out as the visitor scrolls.
  *
  * @package raze
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$raze_state = raze_values_statement();
 $raze_cards = raze_service_cards();
 $raze_n     = count( $raze_cards );
 ?>
 <section class="values" id="services">
-	<div class="values-statement wrap">
-		<p class="values-lead" data-reveal><?php echo esc_html( $raze_state['lead'] ); ?>:</p>
-		<p class="values-words">
-			<?php foreach ( $raze_state['words'] as $raze_i => $raze_word ) : ?>
-				<span class="values-word values-word-<?php echo (int) $raze_i; ?>" data-reveal style="--d:<?php echo esc_attr( 0.12 * $raze_i ); ?>s"><?php echo esc_html( $raze_word ); ?></span>
-			<?php endforeach; ?>
-		</p>
-	</div>
-
-	<div class="values-motto wrap">
-		<p class="h-xl" data-reveal><span class="grad-text"><?php echo esc_html( $raze_state['motto'][0] ); ?></span> <?php echo esc_html( $raze_state['motto'][1] ); ?></p>
-	</div>
-
 	<div class="values-stage" data-fan style="--n:<?php echo (int) $raze_n; ?>">
 		<div class="values-sticky">
 			<div class="values-head wrap">

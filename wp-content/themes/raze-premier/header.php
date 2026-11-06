@@ -50,7 +50,7 @@ $raze_cta   = $raze_book ? $raze_book : $raze_home . '#contact';
 	<a class="btn btn-ghost topbar-cta" href="<?php echo esc_url( $raze_cta ); ?>" <?php echo $raze_book ? 'target="_blank" rel="noopener"' : ''; ?>>Start a project</a>
 </header>
 
-<nav class="dock<?php echo is_front_page() ? '' : ' is-top'; ?>" id="site-nav" aria-label="<?php esc_attr_e( 'Main', 'raze' ); ?>" data-dock>
+<nav class="dock" id="site-nav" aria-label="<?php esc_attr_e( 'Main', 'raze' ); ?>" data-dock<?php echo is_front_page() ? ' data-scrub' : ''; ?>>
 	<div class="dock-pill">
 		<ul class="dock-list dock-left">
 			<?php foreach ( $raze_left as $raze_href => $raze_label ) : ?>

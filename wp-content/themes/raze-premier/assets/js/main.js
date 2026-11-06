@@ -62,42 +62,31 @@
 
 	var pre = $('[data-preloader]');
 	if (pre && !doc.classList.contains('pl-skip')) {
-		var countEl = $('[data-pl-count]', pre);
-		var barEl = $('[data-pl-bar]', pre);
-		var statusEl = $('[data-pl-status]', pre);
-		var ring = $('.pl-progress', pre);
-		var statuses = [[0, 'Initialising'], [25, 'Scanning search'], [50, 'Loading brand'], [75, 'Calibrating ads'], [100, 'Ready']];
 		var loaded = document.readyState === 'complete';
 		window.addEventListener('load', function () { loaded = true; });
 		var start = performance.now();
-		var minTime = 2100;
-		var maxTime = 4500;
+		var minTime = 2400;
+		var maxTime = 5000;
 		var shown = 0;
+		var lit = false;
+
+		var finish = function () {
+			pre.classList.add('is-flare');
+			setTimeout(function () { pre.classList.add('is-open'); setReady(); }, 320);
+			setTimeout(function () { if (pre.parentNode) { pre.parentNode.removeChild(pre); } }, 1600);
+		};
 
 		var tick = function (now) {
 			var t = now - start;
-			var target = loaded || t > maxTime ? 100 : 92;
-			var timeCap = clamp(t / minTime, 0, 1) * 100;
-			var goal = Math.min(target, timeCap);
-			shown += (goal - shown) * 0.12 + 0.15;
-			shown = Math.min(shown, goal);
-			var n = Math.round(shown);
-			countEl.textContent = ('00' + n).slice(-3);
-			barEl.style.width = n + '%';
-			if (ring) { ring.style.strokeDashoffset = String(100 - n); }
-			for (var i = statuses.length - 1; i >= 0; i--) {
-				if (n >= statuses[i][0]) { statusEl.textContent = statuses[i][1]; break; }
-			}
-			if (n >= 100) { finish(); return; }
+			var target = loaded || t > maxTime ? 100 : 90;
+			var goal = Math.min(target, clamp(t / minTime, 0, 1) * 100);
+			shown = Math.min(goal, shown + (goal - shown) * 0.1 + 0.2);
+			// Power runs from the core up the lines first, then the eyes light.
+			pre.style.setProperty('--c', clamp(shown / 30, 0, 1).toFixed(3));
+			pre.style.setProperty('--g', clamp((shown - 30) / 70, 0, 1).toFixed(3));
+			if (!lit && shown >= 31) { lit = true; pre.classList.add('is-lit'); }
+			if (shown >= 99.5) { setTimeout(finish, 280); return; }
 			requestAnimationFrame(tick);
-		};
-
-		var finish = function () {
-			pre.classList.add('is-done');
-			setTimeout(function () { pre.classList.add('is-wipe'); }, 650);
-			setTimeout(function () { pre.classList.add('is-out'); setReady(); }, 1350);
-			setTimeout(function () { if (pre.parentNode) { pre.parentNode.removeChild(pre); } }, 2400);
-			try { sessionStorage.setItem('raze_pl', '1'); } catch (err) { /* storage unavailable */ }
 		};
 
 		requestAnimationFrame(tick);
@@ -116,10 +105,20 @@
 
 	var dock = $('[data-dock]');
 	if (dock) {
-		var front = !dock.classList.contains('is-top');
-		if (front) {
-			scrollers.push(function (y) { dock.classList.toggle('is-top', y > 40); });
-		}
+		// On the homepage the dock starts at the bottom of the screen and
+		// follows the scroll up, reaching the top just before the services.
+		var scrubEl = dock.hasAttribute('data-scrub') ? document.getElementById('services') : null;
+		var placeDock = function (y) {
+			if (!scrubEl) { dock.style.setProperty('--dy', '0px'); return; }
+			var travel = vh() - dock.offsetHeight - 16 - 32;
+			var end = Math.max(200, scrubEl.offsetTop - vh() * 0.25);
+			var p = reduce ? (y > 40 ? 1 : 0) : clamp(y / end, 0, 1);
+			var eased = p * p * (3 - 2 * p);
+			dock.style.setProperty('--dy', ((1 - eased) * travel).toFixed(1) + 'px');
+			dock.classList.toggle('is-down', eased < 0.5);
+		};
+		scrollers.push(placeDock);
+		placeDock(window.pageYOffset);
 		var toggle = $('[data-dock-toggle]', dock);
 		var closeDock = function () { dock.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); };
 		toggle.addEventListener('click', function () {
@@ -155,17 +154,8 @@
 
 	var surface = $('[data-surface]');
 	if (surface) {
-		var chip = $('.surface-chip', surface);
 		var items = $$('[data-surface-item]', surface);
 		var current = 0;
-		var fit = function () {
-			var item = items[current];
-			var em = parseFloat(getComputedStyle(chip).fontSize) || 16;
-			chip.style.setProperty('--w', (item.scrollWidth / em + 0.02).toFixed(3) + 'em');
-		};
-		fit();
-		window.addEventListener('resize', fit);
-		if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fit); }
 		if (!reduce && items.length > 1) {
 			whenReady(function () {
 				setInterval(function () {
@@ -175,7 +165,6 @@
 					prev.classList.add('is-out');
 					setTimeout(function () { prev.classList.remove('is-out'); }, 700);
 					items[current].classList.add('is-on');
-					fit();
 				}, 2300);
 			});
 		}
@@ -228,16 +217,32 @@
 		});
 	}
 
-	/* Parallax images ------------------------------------------------- */
+	/* Work: cards pin and stack, earlier ones shrink back ------------- */
+
+	var cards = $$('[data-scard]');
+	if (cards.length && !reduce) {
+		scrollers.push(function () {
+			cards.forEach(function (card, i) {
+				var next = cards[i + 1];
+				if (!next) { card.style.setProperty('--s', 1); card.style.setProperty('--dim', 0); return; }
+				var r = card.getBoundingClientRect();
+				var n = next.getBoundingClientRect();
+				// 0 while the next card is a screen away, 1 once it covers this one.
+				var p = clamp(1 - (n.top - r.top) / (vh() * 0.9), 0, 1);
+				card.style.setProperty('--s', (1 - p * 0.06).toFixed(4));
+				card.style.setProperty('--dim', p.toFixed(3));
+			});
+		});
+	}
+
+	/* Big cards grow into place as they arrive ------------------------ */
 
 	if (!reduce) {
-		$$('[data-parallax]').forEach(function (el) {
-			var speed = parseFloat(el.getAttribute('data-parallax')) || 0.06;
+		$$('[data-zoom]').forEach(function (el) {
 			scrollers.push(function () {
 				var r = el.getBoundingClientRect();
-				if (r.bottom < -200 || r.top > vh() + 200) { return; }
-				var mid = r.top + r.height / 2 - vh() / 2;
-				el.style.transform = 'translate3d(0,' + (mid * speed).toFixed(1) + 'px,0)';
+				var p = clamp((vh() - r.top) / (vh() * 0.7), 0, 1);
+				el.style.setProperty('--z', (0.92 + p * 0.08).toFixed(4));
 			});
 		});
 	}
@@ -322,7 +327,9 @@
 	if (fw && !reduce) {
 		scrollers.push(function () {
 			var p = progressOf(fw.parentNode);
-			fw.style.setProperty('--fy', ((1 - clamp(p * 1.6, 0, 1)) * 30).toFixed(1) + '%');
+			var q = clamp((p - 0.05) * 2.2, 0, 1);
+			fw.style.setProperty('--fy', ((1 - q) * 35).toFixed(1) + '%');
+			fw.style.setProperty('--fo', (0.2 + q * 0.8).toFixed(3));
 		});
 	}
 

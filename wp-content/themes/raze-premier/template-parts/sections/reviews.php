@@ -15,7 +15,7 @@ if ( ! $raze_reviews ) {
 $raze_rows = array( $raze_reviews, array_reverse( $raze_reviews ) );
 ?>
 <section class="reviews" id="reviews">
-	<div class="reviews-heart" aria-hidden="true"></div>
+	<svg class="reviews-heart" viewBox="0 0 600 520" aria-hidden="true" focusable="false"><defs><radialGradient id="rvh" cx=".5" cy=".42" r=".6"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#efe7ff"/><stop offset="1" stop-color="#d5c2ff"/></radialGradient></defs><path d="M300 500C120 380 20 270 20 160 20 80 85 20 165 20c58 0 105 30 135 75C330 50 377 20 435 20c80 0 145 60 145 140 0 110-100 220-280 340z" fill="url(#rvh)"/></svg>
 	<div class="wrap reviews-head">
 		<h2 class="h-xl" data-reveal>Wall of Love</h2>
 		<p class="lede" data-reveal style="--d:.1s">Founders, marketers and teams who found out where they stood, then changed it.</p>

@@ -35,7 +35,7 @@ $raze_node = static function ( $node, $step ) {
 };
 ?>
 <section class="process" id="process">
-	<div class="process-card">
+	<div class="process-card" data-zoom>
 		<div class="process-copy">
 			<p class="kicker" data-reveal>How a project runs</p>
 			<h2 class="h-xl process-title" data-reveal>Turn one call into a <span class="fade-word">working plan</span></h2>

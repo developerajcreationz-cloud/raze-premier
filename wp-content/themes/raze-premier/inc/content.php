@@ -296,23 +296,6 @@ function raze_hero_floaters() {
 }
 
 /**
- * Lines for the statement above the services. The last word of each line
- * is set large, the way the reference site builds its values intro.
- *
- * @return array
- */
-function raze_values_statement() {
-	return apply_filters(
-		'raze_content_values_statement',
-		array(
-			'lead'  => 'When we build for you, we build',
-			'words' => array( 'clearly.', 'quickly.', 'measurably.' ),
-			'motto' => array( 'Shipped', 'is better than perfect on paper.' ),
-		)
-	);
-}
-
-/**
  * How a project runs, drawn as a workflow. The first node is the trigger,
  * the last two run side by side.
  *

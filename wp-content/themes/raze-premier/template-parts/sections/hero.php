@@ -1,7 +1,6 @@
 <?php
 /**
- * Hero: centred headline with a rotating search surface (brand mark and
- * name) inside the text, and the same marks floating behind it in three
+ * Hero: centred headline with a rotating platform mark inside the text, and the same marks floating behind it in three
  * depth layers.
  *
  * @package raze
@@ -17,10 +16,6 @@ $raze_first    = array_key_first( $raze_surfaces );
 ?>
 <section class="hero" id="top">
 	<div class="hero-bg" aria-hidden="true">
-		<div class="hero-dots"></div>
-		<div class="hero-orb hero-orb-1"></div>
-		<div class="hero-orb hero-orb-2"></div>
-		<div class="hero-orb hero-orb-3"></div>
 		<?php foreach ( $raze_floaters as $raze_layer => $raze_items ) : ?>
 			<div class="hero-layer hero-layer-<?php echo esc_attr( $raze_layer ); ?>" data-layer="<?php echo esc_attr( $raze_layer ); ?>">
 				<?php foreach ( $raze_items as $raze_i => $raze_f ) : ?>
@@ -45,12 +40,12 @@ $raze_first    = array_key_first( $raze_surfaces );
 		<h1 class="hero-title">
 			<span class="hero-line" data-hero-in style="--d:.08s">Be the brand people</span>
 			<span class="hero-line" data-hero-in style="--d:.16s">find first on
-				<span class="surface" data-surface aria-live="polite">
+				<span class="surface" data-surface>
 					<span class="surface-chip">
 						<?php foreach ( $raze_surfaces as $raze_slug => $raze_label ) : ?>
 							<span class="surface-item<?php echo $raze_slug === $raze_first ? ' is-on' : ''; ?>" data-surface-item>
 								<span class="surface-mark"><?php echo raze_mark( $raze_slug ); // phpcs:ignore ?></span>
-								<span class="surface-name"><?php echo esc_html( $raze_label ); ?></span>
+								<span class="sr-only"><?php echo esc_html( $raze_label ); ?></span>
 							</span>
 						<?php endforeach; ?>
 					</span>

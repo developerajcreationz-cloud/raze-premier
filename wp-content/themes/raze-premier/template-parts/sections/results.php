@@ -47,7 +47,7 @@ $raze_work = raze_work();
 		<?php endforeach; ?>
 	</div>
 
-	<figure class="wrap results-quote">
+	<figure class="wrap results-quote" data-zoom>
 		<blockquote data-words>
 			<p>Search is no longer one results page. People ask Google, Maps and AI assistants, and scroll feeds. We make sure that wherever they look, they find you, and that every click is followed up.</p>
 		</blockquote>
