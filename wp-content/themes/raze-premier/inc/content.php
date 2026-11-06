@@ -432,6 +432,13 @@ function raze_reviews() {
 				'name'     => 'B2B sourcing platform',
 				'verified' => 'Client',
 			),
+			array(
+				'platform' => 'direct',
+				'title'    => 'A brand that finally sounds like our studio',
+				'body'     => 'We wanted Call Time to feel professional to the filmmakers we work with, without losing the energy that got us started. Raze Premier gave us a bold identity, a pink, orange and yellow gradient on black, that works everywhere we need it. [[From our business cards to the LED screens, everything now looks like one studio.]]',
+				'name'     => 'Film studio for new filmmakers',
+				'verified' => 'Client',
+			),
 		)
 	);
 }
